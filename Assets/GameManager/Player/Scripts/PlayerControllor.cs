@@ -121,7 +121,6 @@ public class PlayerControllor : MonoBehaviour
         float moveAmount = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).magnitude;
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        // ???? ???????? ????? ??? ??????
         float shakeAmount = moveAmount > 0.1f ?
             (isRunning ? runShakeAmount : walkShakeAmount) : 0f;
 
@@ -137,10 +136,9 @@ public class PlayerControllor : MonoBehaviour
         else
         {
             shakeTimer = 0;
-            cam.transform.localPosition = originalCamPos; // ?????? ?????? ?????? ??? ???? ??????
+            cam.transform.localPosition = originalCamPos;
         }
 
-        // ????? ???????? ??? ??????
         Vector3 targetPos = playerBody.position - viewPoint.forward * cameraDistance + Vector3.up * cameraHeight;
         cam.transform.position = targetPos;
         cam.transform.LookAt(playerBody.position + Vector3.up * 1.5f);
