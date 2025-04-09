@@ -246,6 +246,7 @@ public class PlayerControllor : MonoBehaviour
     void StartCombo()
     {
         isAttacking = true;
+        isDodging = false;
         isCanMove = false;
         comboStep = 1;
         anim.SetInteger("ComboStep", comboStep);
@@ -264,6 +265,7 @@ public class PlayerControllor : MonoBehaviour
         if (!comboQueued)
         {
             isAttacking = false;
+            isDodging = true;
             isCanMove = true;
             comboStep = 0;
             anim.SetInteger("ComboStep", 0);
