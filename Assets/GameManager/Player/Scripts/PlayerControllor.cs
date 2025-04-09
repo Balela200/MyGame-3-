@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerControllor : MonoBehaviour
@@ -54,6 +55,14 @@ public class PlayerControllor : MonoBehaviour
     private Vector3 dodgeDirection;
     private float dodgeTimer;
 
+    [Header("Attack")]
+    private int comboStep = 0;
+    private float lastAttackTime = 0f;
+    public float comboResetTime = 1f;
+    private bool comboQueued = false;
+    public float attackCooldown = 0.5f;
+    public float comboWindow = 0.3f;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -71,20 +80,43 @@ public class PlayerControllor : MonoBehaviour
     {
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        if (isAttacking && stateInfo.IsTag("Attack") && stateInfo.normalizedTime >= 1f)
+        if (isAttacking)
         {
-            isAttacking = false;
-            isCanMove = true;
+            if (stateInfo.normalizedTime >= 0.9f && !comboQueued)
+            {
+                Invoke("ResetCombo", 0.1f);
+            }
+            else if (comboQueued && Time.time - lastAttackTime <= comboWindow && comboStep < 2)
+            {
+                comboStep++;
+                anim.SetInteger("ComboStep", comboStep);
+                anim.SetTrigger("Attack");
+                comboQueued = false;
+                lastAttackTime = Time.time;
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isAttacking && Time.time - lastAttackTime >= attackCooldown)
+            {
+                StartCombo();
+            }
+            else if (isAttacking && comboStep < 2 && Time.time - lastAttackTime < comboWindow)
+            {
+                comboQueued = true;
+            }
         }
 
         HandleCamera();
         HandleMovement();
         Dodging();
 
-        if (Input.GetMouseButtonUp(0) && isAttacking)
-        {
-            Attack();
-        }
+        //if (Input.GetMouseButtonDown(0) && !isAttacking && isCanMove)
+        //{
+        //    Attack();
+        //}
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.None;
@@ -167,17 +199,6 @@ public class PlayerControllor : MonoBehaviour
                 isAttacking = false;
             }
         }
-
-        //if (Input.GetKeyDown(KeyCode.Space) && isDodging)
-        //{
-        //    StartDodge();
-        //    Vector3 dodgeMove = dodgeDirection * dodgeSpeed;
-        //    characterController.Move(dodgeMove * Time.deltaTime);
-
-        //    isDodging = false;
-        //    isCanMove = false;
-        //    isAttacking = false;
-        //}
     }
 
     void StartDodge()
@@ -205,22 +226,49 @@ public class PlayerControllor : MonoBehaviour
         anim.SetTrigger("Dodgeforward");
     }
 
-    void Attack()
+    //void Attack()
+    //{
+    //    isCanMove = false;
+    //    isDodging = false;
+    //    isAttacking = false;
+
+    //    Vector3 lookDirection = viewPoint.forward;
+    //    lookDirection.y = 0f;
+    //    lookDirection.Normalize();
+
+    //    if (lookDirection.magnitude > 0.1f)
+    //    {
+    //        transform.rotation = Quaternion.LookRotation(lookDirection);
+    //    }
+
+    //    anim.SetTrigger("Attack");
+    //}
+    void StartCombo()
     {
+        isAttacking = true;
         isCanMove = false;
-        isDodging = false;
-        isAttacking = false;
+        comboStep = 1;
+        anim.SetInteger("ComboStep", comboStep);
+        anim.SetTrigger("Attack");
+        lastAttackTime = Time.time;
+        comboQueued = false;
 
         Vector3 lookDirection = viewPoint.forward;
         lookDirection.y = 0f;
-        lookDirection.Normalize();
-
         if (lookDirection.magnitude > 0.1f)
-        {
             transform.rotation = Quaternion.LookRotation(lookDirection);
-        }
+    }
 
-        anim.SetTrigger("Attack");
+    void ResetCombo()
+    {
+        if (!comboQueued)
+        {
+            isAttacking = false;
+            isCanMove = true;
+            comboStep = 0;
+            anim.SetInteger("ComboStep", 0);
+            comboQueued = false;
+        }
     }
 
     void LateUpdate()
