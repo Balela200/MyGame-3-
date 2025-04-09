@@ -1850,6 +1850,8 @@ MonoBehaviour:
   characterController: {fileID: 0}
   walkSpeed: 5
   runSpeed: 12
+  isCanMove: 1
+  isAttacking: 1
   jumpForce: 8
   gravityMultiplier: 3
   groundCheckPoint: {fileID: 920437071}
@@ -1866,6 +1868,9 @@ MonoBehaviour:
   playerBody: {fileID: 2020952009}
   cameraDistance: 5
   cameraHeight: 2
+  dodgeSpeed: 15
+  dodgeDuration: 1
+  isDodging: 0
 --- !u!143 &2020952007
 CharacterController:
   m_ObjectHideFlags: 0

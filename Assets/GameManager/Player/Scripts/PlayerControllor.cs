@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerControllor : MonoBehaviour
 {
     Animator anim;
+    public static PlayerControllor playerControllor;
 
     [Header("Movement")]
     public CharacterController characterController;
@@ -10,6 +11,9 @@ public class PlayerControllor : MonoBehaviour
     public float runSpeed = 12f;
     private float activeSpeed;
     private Vector3 moveDirection;
+
+    public bool isCanMove = true;
+    public bool isAttacking = false;
 
     [Header("Jump & Gravity")]
     public float jumpForce = 12f;
@@ -42,6 +46,14 @@ public class PlayerControllor : MonoBehaviour
     public float cameraDistance = 5f;
     public float cameraHeight = 2f;
 
+    [Header("Roll")]
+    public float dodgeSpeed = 5f;
+    public float dodgeDuration = 0.5f;
+
+    public bool isDodging = true;
+    private Vector3 dodgeDirection;
+    private float dodgeTimer;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -51,12 +63,28 @@ public class PlayerControllor : MonoBehaviour
         originalCamPos = cam.transform.localPosition;
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerControllor = this;
     }
 
     void Update()
     {
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        if (isAttacking && stateInfo.IsTag("Attack") && stateInfo.normalizedTime >= 1f)
+        {
+            isAttacking = false;
+            isCanMove = true;
+        }
+
         HandleCamera();
         HandleMovement();
+        Dodging();
+
+        if (Input.GetMouseButtonUp(0) && isAttacking)
+        {
+            Attack();
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.None;
@@ -85,7 +113,7 @@ public class PlayerControllor : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
         }
 
-        if (inputDir.magnitude > 0.1f)
+        if (inputDir.magnitude > 0.1f && isCanMove)
         {
             activeSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? runSpeed : walkSpeed;
         }
@@ -93,26 +121,11 @@ public class PlayerControllor : MonoBehaviour
         {
             activeSpeed = 0f;
         }
+
         Vector3 horizontalMove = move * activeSpeed;
 
         anim.SetBool("Run", activeSpeed == runSpeed);
         anim.SetBool("Walk", activeSpeed == walkSpeed);
-
-        if (isGrounded)
-        {
-            if (moveDirection.y < 0)
-                moveDirection.y = -2f;
-
-            if (Input.GetButtonDown("Jump"))
-            {
-                moveDirection.y = jumpForce;
-                anim.SetTrigger("Jump");
-            }
-        }
-        else
-        {
-            moveDirection.y += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
-        }
 
         moveDirection.x = horizontalMove.x;
         moveDirection.z = horizontalMove.z;
@@ -129,6 +142,85 @@ public class PlayerControllor : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation, -60f, 60f);
 
         viewPoint.rotation = Quaternion.Euler(verticalRotation, rotationX, 0f);
+    }
+
+    void Dodging()
+    {
+        if (!isDodging)
+        {
+            dodgeTimer -= Time.deltaTime;
+
+            if (dodgeTimer > 0f)
+            {
+                Vector3 dodgeMove = dodgeDirection * dodgeSpeed;
+                characterController.Move(dodgeMove * Time.deltaTime);
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded && isDodging)
+            {
+                StartDodge();
+
+                isDodging = false;
+                isCanMove = false;
+                isAttacking = false;
+            }
+        }
+
+        //if (Input.GetKeyDown(KeyCode.Space) && isDodging)
+        //{
+        //    StartDodge();
+        //    Vector3 dodgeMove = dodgeDirection * dodgeSpeed;
+        //    characterController.Move(dodgeMove * Time.deltaTime);
+
+        //    isDodging = false;
+        //    isCanMove = false;
+        //    isAttacking = false;
+        //}
+    }
+
+    void StartDodge()
+    {
+        Vector3 inputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
+
+        if (inputDirection.magnitude > 0.1f)
+        {
+            Vector3 camForward = new Vector3(viewPoint.forward.x, 0f, viewPoint.forward.z).normalized;
+            Vector3 camRight = new Vector3(viewPoint.right.x, 0f, viewPoint.right.z).normalized;
+
+            dodgeDirection = (camForward * inputDirection.z + camRight * inputDirection.x).normalized;
+        }
+        else
+        {
+            dodgeDirection = new Vector3(viewPoint.forward.x, 0f, viewPoint.forward.z).normalized;
+        }
+
+        transform.rotation = Quaternion.LookRotation(dodgeDirection);
+
+        //isDodging = false;
+        //isCanMove = false;
+        dodgeTimer = dodgeDuration;
+
+        anim.SetTrigger("Dodgeforward");
+    }
+
+    void Attack()
+    {
+        isCanMove = false;
+        isDodging = false;
+        isAttacking = false;
+
+        Vector3 lookDirection = viewPoint.forward;
+        lookDirection.y = 0f;
+        lookDirection.Normalize();
+
+        if (lookDirection.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(lookDirection);
+        }
+
+        anim.SetTrigger("Attack");
     }
 
     void LateUpdate()
