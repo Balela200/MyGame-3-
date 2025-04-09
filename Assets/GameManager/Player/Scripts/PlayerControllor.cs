@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerControllor : MonoBehaviour
 {
+    Animator anim;
+
     [Header("Movement")]
     public CharacterController characterController;
     public float walkSpeed = 5f;
@@ -42,10 +44,10 @@ public class PlayerControllor : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         cam = Camera.main;
 
-        // ???? ???? ???????? ?????? ???? ???? ?? ??? ????????
         originalCamPos = cam.transform.localPosition;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -83,8 +85,18 @@ public class PlayerControllor : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
         }
 
-        activeSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+        if (inputDir.magnitude > 0.1f)
+        {
+            activeSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? runSpeed : walkSpeed;
+        }
+        else
+        {
+            activeSpeed = 0f;
+        }
         Vector3 horizontalMove = move * activeSpeed;
+
+        anim.SetBool("Run", activeSpeed == runSpeed);
+        anim.SetBool("Walk", activeSpeed == walkSpeed);
 
         if (isGrounded)
         {
@@ -92,7 +104,10 @@ public class PlayerControllor : MonoBehaviour
                 moveDirection.y = -2f;
 
             if (Input.GetButtonDown("Jump"))
+            {
                 moveDirection.y = jumpForce;
+                anim.SetTrigger("Jump");
+            }
         }
         else
         {
