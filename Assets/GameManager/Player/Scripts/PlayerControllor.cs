@@ -63,6 +63,11 @@ public class PlayerControllor : MonoBehaviour
     public float attackCooldown = 0.5f;
     public float comboWindow = 0.3f;
 
+    [Header("Camp")]
+    bool isCamp = false;
+    CampSystem Camp_1;
+    bool isSit = false;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -105,6 +110,7 @@ public class PlayerControllor : MonoBehaviour
         HandleCamera();
         HandleMovement();
         Dodging();
+        InputPlayer();
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.None;
@@ -207,8 +213,6 @@ public class PlayerControllor : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(dodgeDirection);
 
-        //isDodging = false;
-        //isCanMove = false;
         dodgeTimer = dodgeDuration;
 
         anim.SetTrigger("Dodgeforward");
@@ -270,5 +274,47 @@ public class PlayerControllor : MonoBehaviour
         Vector3 targetPos = playerBody.position - viewPoint.forward * cameraDistance + Vector3.up * cameraHeight;
         cam.transform.position = targetPos;
         cam.transform.LookAt(playerBody.position + Vector3.up * 1.5f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Camp1"))
+        {
+            Camp_1 = other.gameObject.GetComponent<CampSystem>();
+            isCamp = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Camp1"))
+        {
+            isCamp = false;
+        }
+    }
+
+    void InputPlayer()
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            if (isSit)
+            {
+                anim.SetBool("Sit", false);
+                isSit = false;
+            }
+            else
+            {
+                Camp_1.CampEvent();
+                anim.SetBool("Sit", true);
+                isSit = true;
+            }
+        }
+
+        if(isSit)
+        {
+            isCanMove = false;
+            isAttacking = false;
+            isDodging = false;
+        }
     }
 }
