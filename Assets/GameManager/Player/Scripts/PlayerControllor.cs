@@ -80,29 +80,23 @@ public class PlayerControllor : MonoBehaviour
     {
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        if (isAttacking)
+        if (comboQueued && !isAttacking && comboStep < 2)
         {
-            if (stateInfo.normalizedTime >= 0.9f && !comboQueued)
-            {
-                Invoke("ResetCombo", 0.1f);
-            }
-            else if (comboQueued && Time.time - lastAttackTime <= comboWindow && comboStep < 2)
-            {
-                comboStep++;
-                anim.SetInteger("ComboStep", comboStep);
-                anim.SetTrigger("Attack");
-                comboQueued = false;
-                lastAttackTime = Time.time;
-            }
+            comboStep++;
+            anim.SetInteger("ComboStep", comboStep);
+            anim.SetTrigger("Attack");
+            comboQueued = false;
+            lastAttackTime = Time.time;
+            isAttacking = true; 
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!isAttacking && Time.time - lastAttackTime >= attackCooldown)
+            if (isAttacking && Time.time - lastAttackTime >= attackCooldown)
             {
                 StartCombo();
             }
-            else if (isAttacking && comboStep < 2 && Time.time - lastAttackTime < comboWindow)
+            else if (!isAttacking && comboStep < 2 && Time.time - lastAttackTime < comboWindow)
             {
                 comboQueued = true;
             }
@@ -111,12 +105,6 @@ public class PlayerControllor : MonoBehaviour
         HandleCamera();
         HandleMovement();
         Dodging();
-
-        //if (Input.GetMouseButtonDown(0) && !isAttacking && isCanMove)
-        //{
-        //    Attack();
-        //}
-
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.None;
@@ -225,27 +213,9 @@ public class PlayerControllor : MonoBehaviour
 
         anim.SetTrigger("Dodgeforward");
     }
-
-    //void Attack()
-    //{
-    //    isCanMove = false;
-    //    isDodging = false;
-    //    isAttacking = false;
-
-    //    Vector3 lookDirection = viewPoint.forward;
-    //    lookDirection.y = 0f;
-    //    lookDirection.Normalize();
-
-    //    if (lookDirection.magnitude > 0.1f)
-    //    {
-    //        transform.rotation = Quaternion.LookRotation(lookDirection);
-    //    }
-
-    //    anim.SetTrigger("Attack");
-    //}
     void StartCombo()
     {
-        isAttacking = true;
+        isAttacking = false;
         isDodging = false;
         isCanMove = false;
         comboStep = 1;
@@ -260,13 +230,14 @@ public class PlayerControllor : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(lookDirection);
     }
 
-    void ResetCombo()
+    public void EndAttack()
     {
-        if (!comboQueued)
+        isAttacking = true;
+        isDodging = true;
+        isCanMove = true;
+
+        if (comboStep >= 2 || !comboQueued)
         {
-            isAttacking = false;
-            isDodging = true;
-            isCanMove = true;
             comboStep = 0;
             anim.SetInteger("ComboStep", 0);
             comboQueued = false;

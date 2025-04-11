@@ -1868,9 +1868,12 @@ MonoBehaviour:
   playerBody: {fileID: 2020952009}
   cameraDistance: 5
   cameraHeight: 2
-  dodgeSpeed: 15
+  dodgeSpeed: 10
   dodgeDuration: 1
   isDodging: 0
+  comboResetTime: 1
+  attackCooldown: 0.5
+  comboWindow: 0.3
 --- !u!143 &2020952007
 CharacterController:
   m_ObjectHideFlags: 0
