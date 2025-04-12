@@ -6,6 +6,8 @@ TagManager:
   tags:
   - -- [ Camp ] --
   - Camp1
+  - HealthBar
+  - HealthText
   layers:
   - Default
   - TransparentFX
