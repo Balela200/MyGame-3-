@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +21,20 @@ public class HealthPlayer : MonoBehaviour
         {
             // Daed
             PlayerControllor.playerControllor.anim.SetTrigger("Dead");
+            healthPlayer = 0;
         }
     }
 
     public void TakeHeal(float heal)
     {
         healthPlayer += heal;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("EnemyAttack"))
+        {
+            TakeDamage(3);
+        }
     }
 }

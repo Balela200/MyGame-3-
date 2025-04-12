@@ -66,6 +66,11 @@ public class PlayerControllor : MonoBehaviour
     public float attackCooldown = 0.5f;
     public float comboWindow = 0.3f;
 
+    public float searchRadius = 5f;
+    public LayerMask enemyLayer;
+
+    public GameObject BoxAttack;
+
     [Header("Camp")]
     public bool isCamp = false;
     CampSystem Camp_1;
@@ -239,10 +244,42 @@ public class PlayerControllor : MonoBehaviour
         lastAttackTime = Time.time;
         comboQueued = false;
 
-        Vector3 lookDirection = viewPoint.forward;
-        lookDirection.y = 0f;
-        if (lookDirection.magnitude > 0.1f)
-            transform.rotation = Quaternion.LookRotation(lookDirection);
+        Transform targetEnemy = GetClosestEnemy();
+
+        if (targetEnemy != null)
+        {
+            Vector3 direction = (targetEnemy.position - transform.position).normalized;
+            direction.y = 0f;
+            if (direction.magnitude > 0.1f)
+                transform.rotation = Quaternion.LookRotation(direction);
+        }
+        else
+        {
+            Vector3 lookDirection = viewPoint.forward;
+            lookDirection.y = 0f;
+            if (lookDirection.magnitude > 0.1f)
+                transform.rotation = Quaternion.LookRotation(lookDirection);
+        }
+    }
+
+    Transform GetClosestEnemy()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, searchRadius, enemyLayer);
+
+        Transform closest = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Collider enemy in enemies)
+        {
+            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                closest = enemy.transform;
+            }
+        }
+
+        return closest;
     }
 
     public void EndAttack()
@@ -352,14 +389,15 @@ public class PlayerControllor : MonoBehaviour
             isCanRotationCamera = true;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
 
-        //if (isSit)
-        //{
-        //    isCanMove = false;
-        //    isAttacking = false;
-        //    isDodging = false;
-        //    isCanRotation = false;
-        //}
+    public void AttackBox()
+    {
+        BoxAttack.SetActive(true);
+    }
 
+    public void EndAttackBox()
+    {
+        BoxAttack.SetActive(false);
     }
 }
