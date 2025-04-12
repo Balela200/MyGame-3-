@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerControllor : MonoBehaviour
 {
-    Animator anim;
+    public Animator anim;
     public static PlayerControllor playerControllor;
 
     [Header("Movement")]
@@ -14,7 +14,8 @@ public class PlayerControllor : MonoBehaviour
     private Vector3 moveDirection;
 
     public bool isCanMove = true;
-    public bool isAttacking = false;
+    public bool isCanRotation = true;
+    public bool isAttacking = true;
 
     [Header("Jump & Gravity")]
     public float jumpForce = 12f;
@@ -42,6 +43,8 @@ public class PlayerControllor : MonoBehaviour
 
     private Vector3 originalCamPos;
 
+    public bool isCanRotationCamera = true;
+
     [Header("Third Person View")]
     public Transform playerBody;
     public float cameraDistance = 5f;
@@ -64,9 +67,10 @@ public class PlayerControllor : MonoBehaviour
     public float comboWindow = 0.3f;
 
     [Header("Camp")]
-    bool isCamp = false;
+    public bool isCamp = false;
     CampSystem Camp_1;
-    bool isSit = false;
+    public bool isSit = false;
+    public AudioSource lightFire;
 
     void Start()
     {
@@ -79,6 +83,7 @@ public class PlayerControllor : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         playerControllor = this;
+
     }
 
     void Update()
@@ -112,10 +117,10 @@ public class PlayerControllor : MonoBehaviour
         Dodging();
         InputPlayer();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Cursor.lockState = CursorLockMode.None;
-        else if (Cursor.lockState == CursorLockMode.None && Input.GetMouseButtonDown(0))
-            Cursor.lockState = CursorLockMode.Locked;
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //    Cursor.lockState = CursorLockMode.None;
+        //else if (Cursor.lockState == CursorLockMode.None && Input.GetMouseButtonDown(0))
+        //    Cursor.lockState = CursorLockMode.Locked;
     }
 
     void HandleMovement()
@@ -128,7 +133,7 @@ public class PlayerControllor : MonoBehaviour
         Vector3 inputDir = new Vector3(horizontal, 0f, vertical).normalized;
 
         Vector3 move = Vector3.zero;
-        if (inputDir.magnitude > 0.1f)
+        if (inputDir.magnitude > 0.1f && isCanRotation)
         {
             Vector3 camForward = Quaternion.Euler(0f, rotationX, 0f) * Vector3.forward;
             Vector3 camRight = Quaternion.Euler(0f, rotationX, 0f) * Vector3.right;
@@ -161,13 +166,16 @@ public class PlayerControllor : MonoBehaviour
 
     void HandleCamera()
     {
-        mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * mouseSensitivity;
+        if (isCanRotationCamera)
+        {
+            mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * mouseSensitivity;
 
-        rotationX += mouseInput.x;
-        verticalRotation += invertLook ? mouseInput.y : -mouseInput.y;
-        verticalRotation = Mathf.Clamp(verticalRotation, -60f, 60f);
+            rotationX += mouseInput.x;
+            verticalRotation += invertLook ? mouseInput.y : -mouseInput.y;
+            verticalRotation = Mathf.Clamp(verticalRotation, -60f, 60f);
 
-        viewPoint.rotation = Quaternion.Euler(verticalRotation, rotationX, 0f);
+            viewPoint.rotation = Quaternion.Euler(verticalRotation, rotationX, 0f);
+        }
     }
 
     void Dodging()
@@ -190,6 +198,7 @@ public class PlayerControllor : MonoBehaviour
 
                 isDodging = false;
                 isCanMove = false;
+                isCanRotation = false;
                 isAttacking = false;
             }
         }
@@ -222,6 +231,8 @@ public class PlayerControllor : MonoBehaviour
         isAttacking = false;
         isDodging = false;
         isCanMove = false;
+        isCanRotation = false;
+
         comboStep = 1;
         anim.SetInteger("ComboStep", comboStep);
         anim.SetTrigger("Attack");
@@ -239,6 +250,7 @@ public class PlayerControllor : MonoBehaviour
         isAttacking = true;
         isDodging = true;
         isCanMove = true;
+        isCanRotation = true;
 
         if (comboStep >= 2 || !comboQueued)
         {
@@ -297,24 +309,57 @@ public class PlayerControllor : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            if (isSit)
+            bool isActive = CampManager.campManager.CampUIGameObject.activeSelf;
+
+            if (isActive)
             {
-                anim.SetBool("Sit", false);
-                isSit = false;
+                CampManager.campManager.CampUIGameObject.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+
+                isCanMove = true;
+                isAttacking = true;
+                isDodging = true;
+                isCanRotation = true;
+
+                // Can Rotation Camera
+                isCanRotationCamera = true;
             }
             else
             {
+                CampManager.campManager.CampUIGameObject.SetActive(true);
                 Camp_1.CampEvent();
-                anim.SetBool("Sit", true);
-                isSit = true;
+                lightFire.Play();
+
+                Cursor.lockState = CursorLockMode.None;
+
+                isCanMove = false;
+                isAttacking = false;
+                isDodging = false;
+                isCanRotation = false;
+
+                //  Dont Rotation Camera
+                isCanRotationCamera = false;
             }
         }
 
-        if(isSit)
+        if (Input.GetKeyUp(KeyCode.X) && isSit)
         {
-            isCanMove = false;
-            isAttacking = false;
-            isDodging = false;
+            anim.SetBool("Sit", false);
+            isSit = false;
+            CampManager.campManager.CampUIGameObject.SetActive(false);
+
+            //  Can Rotation Camera
+            isCanRotationCamera = true;
+            Cursor.lockState = CursorLockMode.Locked;
         }
+
+        //if (isSit)
+        //{
+        //    isCanMove = false;
+        //    isAttacking = false;
+        //    isDodging = false;
+        //    isCanRotation = false;
+        //}
+
     }
 }
