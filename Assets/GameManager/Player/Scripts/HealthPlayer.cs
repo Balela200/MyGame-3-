@@ -21,7 +21,9 @@ public class HealthPlayer : MonoBehaviour
         {
             // Daed
             PlayerControllor.playerControllor.anim.SetTrigger("Dead");
+            Destroy(gameObject);
             healthPlayer = 0;
+            GameManager.gameManager.RespawnPlayer();
         }
     }
 

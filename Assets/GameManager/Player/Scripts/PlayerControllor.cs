@@ -73,7 +73,7 @@ public class PlayerControllor : MonoBehaviour
 
     [Header("Camp")]
     public bool isCamp = false;
-    CampSystem Camp_1;
+    CampSystem CampOther;
     public bool isSit = false;
     public AudioSource lightFire;
 
@@ -329,9 +329,23 @@ public class PlayerControllor : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Camp1"))
         {
-            Camp_1 = other.gameObject.GetComponent<CampSystem>();
+            CampOther = other.gameObject.GetComponent<CampSystem>();
             isCamp = true;
+
+            if(CampOther.Camp1 == true)
+            {
+                CampManager.campManager.isCamp1 = true;
+                CampManager.campManager.isCamp1On = true;
+            }
+            else if(CampOther.Camp2 == true)
+            {
+                CampManager.campManager.isCamp1 = false;
+                CampManager.campManager.isCamp2 = true;
+
+                CampManager.campManager.isCamp2On = true;
+            }
         }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -364,8 +378,8 @@ public class PlayerControllor : MonoBehaviour
             else
             {
                 CampManager.campManager.CampUIGameObject.SetActive(true);
-                Camp_1.CampEvent();
-                lightFire.Play();
+                CampOther.CampEvent();
+                CampManager.campManager.Camp();
 
                 Cursor.lockState = CursorLockMode.None;
 

@@ -23,22 +23,28 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-        }
-        else
-        {
-            Debug.Log("No Player");
-        }
-
-
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (foundPlayer != null)
+        {
+            player = foundPlayer.transform;
+        }
     }
 
     void Update()
     {
+        if (player == null)
+        {
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+            {
+                player = foundPlayer.transform;
+            }
+            return;
+        }
+
         float distance = Vector3.Distance(player.position, transform.position);
         timeAttack += Time.deltaTime;
 
