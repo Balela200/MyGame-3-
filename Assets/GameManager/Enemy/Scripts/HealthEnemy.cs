@@ -16,9 +16,10 @@ public class HealthEnemy : MonoBehaviour
     [Header("UI")]
     public Transform UIEnemy;
     public Image HealthUI;
+
     void Start()
     {
-        if(cam == null)
+        if (cam == null)
         {
             cam = Camera.main;
         }
@@ -32,8 +33,20 @@ public class HealthEnemy : MonoBehaviour
 
     void Update()
     {
-        HealthUI.fillAmount = healthEnemy / healthMaxEnemy;
-        UIEnemy.transform.forward = cam.transform.position;
+        HealthUI.fillAmount = healthEnemy / healthMaxEnemy; 
+
+
+        if (Vector3.Distance(transform.position, cam.transform.position) < 30f) 
+        {
+            UIEnemy.gameObject.SetActive(true);
+
+            UIEnemy.transform.LookAt(cam.transform);
+            UIEnemy.transform.Rotate(0, 180f, 0);
+        }
+        else
+        {
+            UIEnemy.gameObject.SetActive(false);
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -41,7 +54,7 @@ public class HealthEnemy : MonoBehaviour
         if (healthEnemy < 0)
         {
             // Daed
-            PlayerControllor.playerControllor.anim.SetTrigger("Dead");
+            Destroy(gameObject);
             healthEnemy = 0;
         }
     }
@@ -50,7 +63,7 @@ public class HealthEnemy : MonoBehaviour
     {
         if (other.CompareTag("PlayerAttack"))
         {
-            TakeDamage(3);
+            TakeDamage(5);
         }
     }
 }
