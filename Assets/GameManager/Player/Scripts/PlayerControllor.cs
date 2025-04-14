@@ -71,6 +71,9 @@ public class PlayerControllor : MonoBehaviour
 
     public GameObject BoxAttack;
 
+    [Header("Shield")]
+    public bool isShield = false;
+
     [Header("Camp")]
     public bool isCamp = false;
     CampSystem CampOther;
@@ -110,6 +113,8 @@ public class PlayerControllor : MonoBehaviour
             if (isAttacking && Time.time - lastAttackTime >= attackCooldown)
             {
                 StartCombo();
+
+                StaminaSystem.staminaSystem.StaminaLoss(5);
             }
             else if (!isAttacking && comboStep < 2 && Time.time - lastAttackTime < comboWindow)
             {
@@ -121,11 +126,6 @@ public class PlayerControllor : MonoBehaviour
         HandleMovement();
         Dodging();
         InputPlayer();
-
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //    Cursor.lockState = CursorLockMode.None;
-        //else if (Cursor.lockState == CursorLockMode.None && Input.GetMouseButtonDown(0))
-        //    Cursor.lockState = CursorLockMode.Locked;
     }
 
     void HandleMovement()
@@ -200,6 +200,8 @@ public class PlayerControllor : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded && isDodging)
             {
                 StartDodge();
+
+                StaminaSystem.staminaSystem.StaminaLoss(30);
 
                 isDodging = false;
                 isCanMove = false;
@@ -403,6 +405,30 @@ public class PlayerControllor : MonoBehaviour
             isCanRotationCamera = true;
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            anim.SetBool("Shield", true);
+
+            isShield = true;
+
+            isCanMove = false;
+            isAttacking = false;
+            isDodging = false;
+            isCanRotation = false;
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            anim.SetBool("Shield", false);
+
+            isShield = false;
+
+            isCanMove = true;
+            isAttacking = true;
+            isDodging = true;
+            isCanRotation = true;
+        }
+
     }
 
     public void AttackBox()

@@ -10,6 +10,7 @@ public class HealthPlayer : MonoBehaviour
     public float healthPlayer = 100;
     public float healthMaxPlayer = 100;
 
+
     void Start()
     {
         healthPlayerStatic = this;
@@ -17,6 +18,7 @@ public class HealthPlayer : MonoBehaviour
     public void TakeDamage(float damage)
     {
         healthPlayer -= damage;
+
         if (healthPlayer < 0)
         {
             // Daed
@@ -36,7 +38,16 @@ public class HealthPlayer : MonoBehaviour
     {
         if (other.CompareTag("EnemyAttack"))
         {
-            TakeDamage(3);
+            if(PlayerControllor.playerControllor.isShield)
+            {
+                StaminaSystem.staminaSystem.StaminaLoss(20);
+
+                // Audio
+            }
+            else
+            {
+                TakeDamage(3);
+            }
         }
     }
 }
