@@ -56,6 +56,8 @@ public class HealthEnemy : MonoBehaviour
             // Daed
             Destroy(gameObject);
             healthEnemy = 0;
+
+            GameSystem.gameSystem.TakeProgress(Random.Range(10, 20));
         }
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthPlayer : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class HealthPlayer : MonoBehaviour
     [Header("Health")]
     public float healthPlayer = 100;
     public float healthMaxPlayer = 100;
+
+    [Header("Camera")]
+    public Camera GameCamera;
+    public Camera DeadCamera;
 
 
     void Start()
@@ -22,10 +27,28 @@ public class HealthPlayer : MonoBehaviour
         if (healthPlayer < 0)
         {
             // Daed
+            GameCamera.gameObject.SetActive(false);
+            DeadCamera.gameObject.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+            HUD();
+
             PlayerControllor.playerControllor.anim.SetTrigger("Dead");
-            Destroy(gameObject);
             healthPlayer = 0;
-            GameManager.gameManager.RespawnPlayer();
+        }
+    }
+
+    void HUD()
+    {
+        GameObject hud = GameObject.FindGameObjectWithTag("HUDPlayer");
+        if (hud == null)
+        {
+            Debug.Log("No HUD");
+        }
+        else
+        {
+            hud = GameObject.FindGameObjectWithTag("HUDPlayer");
+            hud.SetActive(false);
         }
     }
 

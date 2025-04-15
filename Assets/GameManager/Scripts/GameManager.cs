@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Player")]
     public GameObject player;
+
+    public Transform StartGame;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,17 +24,17 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        if(CampManager.campManager.isCamp1 == true)
+        if(CampManager.isCamp1 == true)
         {
             Instantiate(player, CampManager.campManager.Camp1Transform.position, CampManager.campManager.Camp1Transform.rotation);
         }
-        else if(CampManager.campManager.isCamp2 == true)
+        else if(CampManager.isCamp2 == true)
         {
             Instantiate(player, CampManager.campManager.Camp2Transform.position, CampManager.campManager.Camp2Transform.rotation);
         }
         else
         {
-
+            Instantiate(player, StartGame.position, StartGame.rotation);
         }
     }
 }

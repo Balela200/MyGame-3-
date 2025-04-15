@@ -110,7 +110,7 @@ public class PlayerControllor : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (isAttacking && Time.time - lastAttackTime >= attackCooldown)
+            if (isAttacking && Time.time - lastAttackTime >= attackCooldown && StaminaSystem.staminaSystem.Stamina >= 5)
             {
                 StartCombo();
 
@@ -197,7 +197,7 @@ public class PlayerControllor : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded && isDodging)
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded && isDodging && StaminaSystem.staminaSystem.Stamina >= 30)
             {
                 StartDodge();
 
@@ -236,7 +236,7 @@ public class PlayerControllor : MonoBehaviour
     void StartCombo()
     {
         isAttacking = false;
-        isDodging = false;
+        isDodging = true;
         isCanMove = false;
         isCanRotation = false;
 
@@ -336,13 +336,13 @@ public class PlayerControllor : MonoBehaviour
 
             if(CampOther.Camp1 == true)
             {
-                CampManager.campManager.isCamp1 = true;
+                CampManager.isCamp1 = true;
                 CampManager.campManager.isCamp1On = true;
             }
             else if(CampOther.Camp2 == true)
             {
-                CampManager.campManager.isCamp1 = false;
-                CampManager.campManager.isCamp2 = true;
+                CampManager.isCamp1 = false;
+                CampManager.isCamp2 = true;
 
                 CampManager.campManager.isCamp2On = true;
             }
@@ -360,7 +360,7 @@ public class PlayerControllor : MonoBehaviour
 
     void InputPlayer()
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.E) && isCamp)
         {
             bool isActive = CampManager.campManager.CampUIGameObject.activeSelf;
 
@@ -406,7 +406,7 @@ public class PlayerControllor : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if(Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButtonDown(1) && StaminaSystem.staminaSystem.Stamina >= 20)
         {
             anim.SetBool("Shield", true);
 
@@ -414,7 +414,6 @@ public class PlayerControllor : MonoBehaviour
 
             isCanMove = false;
             isAttacking = false;
-            isDodging = false;
             isCanRotation = false;
         }
         else if (Input.GetMouseButtonUp(1))
@@ -425,7 +424,16 @@ public class PlayerControllor : MonoBehaviour
 
             isCanMove = true;
             isAttacking = true;
-            isDodging = true;
+            isCanRotation = true;
+        }
+        else if(StaminaSystem.staminaSystem.Stamina < 20)
+        {
+            anim.SetBool("Shield", false);
+
+            isShield = false;
+
+            isCanMove = true;
+            isAttacking = true;
             isCanRotation = true;
         }
 

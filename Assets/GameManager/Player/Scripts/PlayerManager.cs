@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
 
     GameObject healthBarImage;
     Image healthBar;
+
+    private float targetFill;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,8 @@ public class PlayerManager : MonoBehaviour
         float maxHealth = HealthPlayer.healthPlayerStatic.healthMaxPlayer;
 
         // Bar Health
-        healthBar.fillAmount = currentHealth / maxHealth;
+        targetFill = currentHealth / maxHealth;
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, targetFill, 20 * Time.deltaTime);
         healthTextComponent.text = currentHealth.ToString() + " / " + maxHealth.ToString();
     }
 }

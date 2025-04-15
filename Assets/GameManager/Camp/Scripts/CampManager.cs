@@ -8,8 +8,8 @@ public class CampManager : MonoBehaviour
     public static CampManager campManager;
     public GameObject CampUIGameObject;
 
-    public bool isCamp1 = false;
-    public bool isCamp2 = false;
+    public static bool isCamp1 = false;
+    public static bool isCamp2 = false;
 
     public bool isCamp1On = false;
     public bool isCamp2On = false;
