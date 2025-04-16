@@ -17,6 +17,8 @@ public class HealthEnemy : MonoBehaviour
     public Transform UIEnemy;
     public Image HealthUI;
 
+    float healthFill;
+
     void Start()
     {
         if (cam == null)
@@ -33,8 +35,8 @@ public class HealthEnemy : MonoBehaviour
 
     void Update()
     {
-        HealthUI.fillAmount = healthEnemy / healthMaxEnemy; 
-
+        healthFill = healthEnemy / healthMaxEnemy;
+        HealthUI.fillAmount = Mathf.Lerp(HealthUI.fillAmount, healthFill, 20 * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, cam.transform.position) < 30f) 
         {
@@ -57,7 +59,7 @@ public class HealthEnemy : MonoBehaviour
             Destroy(gameObject);
             healthEnemy = 0;
 
-            GameSystem.gameSystem.TakeProgress(Random.Range(10, 20));
+            GameSystem.gameSystem.TakeProgress(Random.Range(20, 40));
         }
     }
 
@@ -65,7 +67,7 @@ public class HealthEnemy : MonoBehaviour
     {
         if (other.CompareTag("PlayerAttack"))
         {
-            TakeDamage(5);
+            TakeDamage(10);
         }
     }
 }

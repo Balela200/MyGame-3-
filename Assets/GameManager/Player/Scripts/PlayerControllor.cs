@@ -329,32 +329,21 @@ public class PlayerControllor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Camp1"))
+        if(other.gameObject.CompareTag("Camp"))
         {
             CampOther = other.gameObject.GetComponent<CampSystem>();
             isCamp = true;
-
-            if(CampOther.Camp1 == true)
-            {
-                CampManager.isCamp1 = true;
-                CampManager.campManager.isCamp1On = true;
-            }
-            else if(CampOther.Camp2 == true)
-            {
-                CampManager.isCamp1 = false;
-                CampManager.isCamp2 = true;
-
-                CampManager.campManager.isCamp2On = true;
-            }
         }
 
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Camp1"))
+        if (other.gameObject.CompareTag("Camp"))
         {
             isCamp = false;
+
+            CampOther = null;
         }
     }
 
@@ -380,8 +369,6 @@ public class PlayerControllor : MonoBehaviour
             else
             {
                 CampManager.campManager.CampUIGameObject.SetActive(true);
-                CampOther.CampEvent();
-                CampManager.campManager.Camp();
 
                 Cursor.lockState = CursorLockMode.None;
 
@@ -392,6 +379,26 @@ public class PlayerControllor : MonoBehaviour
 
                 //  Dont Rotation Camera
                 isCanRotationCamera = false;
+
+
+                if (CampOther.Camp1 == true)
+                {
+                    CampManager.isCamp1 = true;
+                }
+                else if (CampOther.Camp2 == true)
+                {
+                    CampManager.isCamp1 = false;
+                    CampManager.isCamp2 = true;
+                }
+
+                if(CampManager.isCamp1 == false)
+                {
+                    CampManager.campManager.AudioCamp1.Play();
+                }
+                else if(CampManager.isCamp2 == false)
+                {
+                    CampManager.campManager.AudioCamp2.Play();
+                }
             }
         }
 
@@ -404,6 +411,8 @@ public class PlayerControllor : MonoBehaviour
             //  Can Rotation Camera
             isCanRotationCamera = true;
             Cursor.lockState = CursorLockMode.Locked;
+
+            CampManager.campManager.isHeal = false;
         }
 
         if(Input.GetMouseButtonDown(1) && StaminaSystem.staminaSystem.Stamina >= 20)

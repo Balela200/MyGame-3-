@@ -15,10 +15,17 @@ public class HealthPlayer : MonoBehaviour
     public Camera GameCamera;
     public Camera DeadCamera;
 
-
     void Start()
     {
         healthPlayerStatic = this;
+    }
+
+    void Update()
+    {
+        if(healthPlayer > 100)
+        {
+            healthPlayer = 100;
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -26,8 +33,16 @@ public class HealthPlayer : MonoBehaviour
 
         if (healthPlayer < 0)
         {
+            GameCamera = Camera.main;
             // Daed
-            GameCamera.gameObject.SetActive(false);
+            if(GameCamera != null)
+            {
+                GameCamera.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("No GameCamera");
+            }
             DeadCamera.gameObject.SetActive(true);
 
             Cursor.lockState = CursorLockMode.None;

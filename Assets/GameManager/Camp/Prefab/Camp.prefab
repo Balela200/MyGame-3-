@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8607708629761584979}
   m_Layer: 0
   m_Name: Camp
-  m_TagString: Camp1
+  m_TagString: Camp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +73,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d6a87b23f96d60d46825e13e7fe08924, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxFire: {fileID: 6384511663342345608}
-  Camp1: 0
+  Camp1: 1
   Camp2: 0
 --- !u!1 &2490260929958668201
 GameObject:
@@ -604,7 +604,7 @@ GameObject:
   - component: {fileID: 6220876606593987371}
   m_Layer: 0
   m_Name: Respawn Camp
-  m_TagString: Untagged
+  m_TagString: Camp1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

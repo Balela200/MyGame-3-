@@ -11,6 +11,8 @@ TagManager:
   - EnemyAttack
   - PlayerAttack
   - HUDPlayer
+  - Camp2
+  - Camp
   layers:
   - Default
   - TransparentFX

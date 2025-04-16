@@ -10,27 +10,33 @@ public class GameManager : MonoBehaviour
     public GameObject player;
 
     public Transform StartGame;
+
+    [Header("Camp")]
+    public GameObject Camp1Transform;
+    public GameObject Camp2Transform;
     // Start is called before the first frame update
     void Start()
     {
         gameManager = this;
+        RespawnPlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Camp1Transform = GameObject.FindGameObjectWithTag("Camp1");
+        Camp2Transform = GameObject.FindGameObjectWithTag("Camp2");
     }
 
     public void RespawnPlayer()
     {
         if(CampManager.isCamp1 == true)
         {
-            Instantiate(player, CampManager.campManager.Camp1Transform.position, CampManager.campManager.Camp1Transform.rotation);
+            Instantiate(player, Camp1Transform.transform.position,Camp1Transform.transform.rotation);
         }
         else if(CampManager.isCamp2 == true)
         {
-            Instantiate(player, CampManager.campManager.Camp2Transform.position, CampManager.campManager.Camp2Transform.rotation);
+            Instantiate(player, Camp2Transform.transform.position, Camp2Transform.transform.rotation);
         }
         else
         {

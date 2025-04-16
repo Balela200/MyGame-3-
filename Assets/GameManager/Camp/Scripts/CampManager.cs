@@ -14,27 +14,38 @@ public class CampManager : MonoBehaviour
     public bool isCamp1On = false;
     public bool isCamp2On = false;
 
-    public Transform Camp1Transform;
-    public Transform Camp2Transform;
-
     public AudioSource AudioCamp1;
     public AudioSource AudioCamp2;
+
+    float timeHeal;
+
+    public bool isHeal = false;
     // Start is called before the first frame update
     void Start()
     {
         campManager = this;
+        Camp();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Camp();
+
+        timeHeal += Time.deltaTime;
+        if (timeHeal >= 0.1 && isHeal == true)
+        {
+            HealthPlayer.healthPlayerStatic.TakeHeal(1);
+            timeHeal = 0;
+        }
     }
 
     public void Sit()
     {
         PlayerControllor.playerControllor.anim.SetBool("Sit", true);
         PlayerControllor.playerControllor.isSit = true;
+
+        isHeal = true;
     }
     
     public void Stand()
@@ -55,17 +66,19 @@ public class CampManager : MonoBehaviour
             PlayerControllor.playerControllor.isDodging = true;
             PlayerControllor.playerControllor.isCanRotation = true;
         }
+
+        isHeal = false;
     }
 
     public void Camp()
     {
         if (isCamp1 == true)
         {
-            AudioCamp1.Play();
+            isCamp1On = true;
         }
         if (isCamp2 == true)
         {
-            AudioCamp2.Play();
+            isCamp2On = true;
         }
     }
 }
