@@ -16,7 +16,21 @@ public class CampManager : MonoBehaviour
     public bool isCamp1On = false;
     public bool isCamp2On = false;
 
+    GameObject playerFind;
+
+    [Header("Image")]
+    public GameObject ImageCamp_1;
+    public GameObject ImageWhatCamp_1;
+
+    public GameObject ImageCamp_2;
+    public GameObject ImageWhatCamp_2;
+
+    [Header("Line")]
     public Image lineCamp_1;
+    public Image lineCamp_2;
+
+    [Header("Travel")]
+    public GameObject travelUI;
 
     [Header("Audio")]
     public AudioSource AudioCamp1;
@@ -24,7 +38,6 @@ public class CampManager : MonoBehaviour
 
     [Header("Health")]
     float timeHeal;
-
     public bool isHeal = false;
     // Start is called before the first frame update
     void Start()
@@ -37,6 +50,16 @@ public class CampManager : MonoBehaviour
     void Update()
     {
         Camp();
+
+        if (playerFind == null)
+        {
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+            {
+                playerFind = foundPlayer;
+            }
+            return;
+        }
 
         timeHeal += Time.deltaTime;
         if (timeHeal >= 0.1 && isHeal == true)
@@ -74,6 +97,12 @@ public class CampManager : MonoBehaviour
         }
 
         isHeal = false;
+        travelUI.SetActive(false);
+    }
+
+    public void Travel()
+    {
+        travelUI.SetActive(true);
     }
 
     public void Camp()
@@ -82,10 +111,35 @@ public class CampManager : MonoBehaviour
         {
             isCamp1On = true;
             lineCamp_1.color = Color.green;
+
+            ImageCamp_1.SetActive(true);
+            ImageWhatCamp_1.SetActive(false);
         }
         if (isCamp2 == true)
         {
             isCamp2On = true;
+            lineCamp_2.color = Color.green;
+
+            ImageCamp_2.SetActive(true);
+            ImageWhatCamp_2.SetActive(false);
         }
+    }
+
+    public void TravelCamp1()
+    {
+        Instantiate(GameManager.gameManager.player, GameManager.gameManager.Camp1Transform.transform.position, GameManager.gameManager.Camp1Transform.transform.rotation);
+
+        Destroy(playerFind);
+
+        Stand();
+    }
+
+    public void TravelCamp2()
+    {
+        Instantiate(GameManager.gameManager.player, GameManager.gameManager.Camp2Transform.transform.position, GameManager.gameManager.Camp2Transform.transform.rotation);
+
+        Destroy(playerFind);
+
+        Stand();
     }
 }

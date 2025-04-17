@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     Image healthBar;
 
     private float targetFill;
-    // Start is called before the first frame update
+
     void Start()
     {
         // Find Health Bar
@@ -26,7 +26,6 @@ public class PlayerManager : MonoBehaviour
         healthTextComponent = healthTextGO.GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float currentHealth = HealthPlayer.healthPlayerStatic.healthPlayer;

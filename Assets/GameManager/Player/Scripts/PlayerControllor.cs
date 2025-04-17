@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -63,13 +65,16 @@ public class PlayerControllor : MonoBehaviour
     private float lastAttackTime = 0f;
     public float comboResetTime = 1f;
     private bool comboQueued = false;
-    public float attackCooldown = 0.5f;
+    public float attackCooldown = 0.2f;
     public float comboWindow = 0.3f;
 
     public float searchRadius = 5f;
     public LayerMask enemyLayer;
 
     public GameObject BoxAttack;
+
+    public Transform[] enemies;
+    private Transform targetEnemy;
 
     [Header("Shield")]
     public bool isShield = false;
@@ -105,21 +110,25 @@ public class PlayerControllor : MonoBehaviour
             anim.SetTrigger("Attack");
             comboQueued = false;
             lastAttackTime = Time.time;
-            isAttacking = true; 
+            isAttacking = true;
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (isAttacking && Time.time - lastAttackTime >= attackCooldown && StaminaSystem.staminaSystem.Stamina >= 5)
+            if (!isAttacking && StaminaSystem.staminaSystem.Stamina >= 5)
             {
                 StartCombo();
-
                 StaminaSystem.staminaSystem.StaminaLoss(5);
             }
-            else if (!isAttacking && comboStep < 2 && Time.time - lastAttackTime < comboWindow)
+            else if (isAttacking && comboStep < 2)
             {
                 comboQueued = true;
             }
+        }
+
+        if (comboQueued && !isAttacking && comboStep < 2)
+        {
+            ExecuteNextCombo();
         }
 
         HandleCamera();
@@ -235,8 +244,8 @@ public class PlayerControllor : MonoBehaviour
     }
     void StartCombo()
     {
-        isAttacking = false;
-        isDodging = true;
+        isAttacking = true;
+        isDodging = false;
         isCanMove = false;
         isCanRotation = false;
 
@@ -246,22 +255,7 @@ public class PlayerControllor : MonoBehaviour
         lastAttackTime = Time.time;
         comboQueued = false;
 
-        Transform targetEnemy = GetClosestEnemy();
-
-        if (targetEnemy != null)
-        {
-            Vector3 direction = (targetEnemy.position - transform.position).normalized;
-            direction.y = 0f;
-            if (direction.magnitude > 0.1f)
-                transform.rotation = Quaternion.LookRotation(direction);
-        }
-        else
-        {
-            Vector3 lookDirection = viewPoint.forward;
-            lookDirection.y = 0f;
-            if (lookDirection.magnitude > 0.1f)
-                transform.rotation = Quaternion.LookRotation(lookDirection);
-        }
+        RotateTowardsTarget();
     }
 
     Transform GetClosestEnemy()
@@ -286,7 +280,7 @@ public class PlayerControllor : MonoBehaviour
 
     public void EndAttack()
     {
-        isAttacking = true;
+        isAttacking = false;
         isDodging = true;
         isCanMove = true;
         isCanRotation = true;
@@ -298,6 +292,32 @@ public class PlayerControllor : MonoBehaviour
             comboQueued = false;
         }
     }
+
+    void ExecuteNextCombo()
+    {
+        comboStep++;
+        anim.SetInteger("ComboStep", comboStep);
+        anim.SetTrigger("Attack");
+        comboQueued = false;
+        lastAttackTime = Time.time;
+        isAttacking = true;
+    }
+
+
+    void RotateTowardsTarget()
+    {
+        Transform targetEnemy = GetClosestEnemy();
+        Vector3 direction = targetEnemy != null ?
+            (targetEnemy.position - transform.position).normalized :
+            viewPoint.forward;
+
+        direction.y = 0f;
+        if (direction.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+    }
+
 
     void LateUpdate()
     {
@@ -365,6 +385,8 @@ public class PlayerControllor : MonoBehaviour
 
                 // Can Rotation Camera
                 isCanRotationCamera = true;
+
+                CampManager.campManager.travelUI.SetActive(false);
             }
             else
             {
@@ -413,6 +435,7 @@ public class PlayerControllor : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
 
             CampManager.campManager.isHeal = false;
+            CampManager.campManager.travelUI.SetActive(false);
         }
 
         if(Input.GetMouseButtonDown(1) && StaminaSystem.staminaSystem.Stamina >= 20)

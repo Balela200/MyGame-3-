@@ -3042,7 +3042,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3495207385564493284
 Transform:
   m_ObjectHideFlags: 0
@@ -3156,13 +3156,14 @@ MonoBehaviour:
   dodgeDuration: 0.5
   isDodging: 1
   comboResetTime: 1
-  attackCooldown: 0.5
+  attackCooldown: 0.4
   comboWindow: 0.3
   searchRadius: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
   BoxAttack: {fileID: 2002813591585259972}
+  enemies: []
   isShield: 0
   isCamp: 0
   isSit: 0
