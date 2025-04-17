@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CampManager : MonoBehaviour
 {
     public static CampManager campManager;
+    [Header("System")]
     public GameObject CampUIGameObject;
 
     public static bool isCamp1 = false;
@@ -14,9 +16,13 @@ public class CampManager : MonoBehaviour
     public bool isCamp1On = false;
     public bool isCamp2On = false;
 
+    public Image lineCamp_1;
+
+    [Header("Audio")]
     public AudioSource AudioCamp1;
     public AudioSource AudioCamp2;
 
+    [Header("Health")]
     float timeHeal;
 
     public bool isHeal = false;
@@ -75,6 +81,7 @@ public class CampManager : MonoBehaviour
         if (isCamp1 == true)
         {
             isCamp1On = true;
+            lineCamp_1.color = Color.green;
         }
         if (isCamp2 == true)
         {
