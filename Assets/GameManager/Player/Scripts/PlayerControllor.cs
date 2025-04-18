@@ -379,7 +379,7 @@ public class PlayerControllor : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
 
                 isCanMove = true;
-                isAttacking = true;
+                isAttacking = false;
                 isDodging = true;
                 isCanRotation = true;
 
@@ -395,7 +395,7 @@ public class PlayerControllor : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
 
                 isCanMove = false;
-                isAttacking = false;
+                isAttacking = true;
                 isDodging = false;
                 isCanRotation = false;
 
@@ -421,6 +421,38 @@ public class PlayerControllor : MonoBehaviour
                 {
                     CampManager.campManager.AudioCamp2.Play();
                 }
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            bool isActive = GameManager.gameManager.UIEsc.activeSelf;
+
+            if(isActive)
+            {
+                GameManager.gameManager.UIEsc.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+
+                isCanMove = true;
+                isAttacking = false;
+                isDodging = true;
+                isCanRotation = true;
+
+                // Can Rotation Camera  
+                isCanRotationCamera = true;
+            }
+            else
+            {
+                GameManager.gameManager.UIEsc.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+
+                isCanMove = false;
+                isAttacking = true;
+                isDodging = false;
+                isCanRotation = false;
+
+                //  Dont Rotation Camera
+                isCanRotationCamera = false;
             }
         }
 

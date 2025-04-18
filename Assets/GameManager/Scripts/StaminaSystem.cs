@@ -9,6 +9,7 @@ public class StaminaSystem : MonoBehaviour
     public float Stamina = 100f;
     public float maxStamina = 100f;
     private float targetFill;
+    public float StaminaHeal = 1;
 
     float timeStamina;
 
@@ -38,9 +39,9 @@ public class StaminaSystem : MonoBehaviour
         staminaText.text = Stamina.ToString() + " / " + maxStamina.ToString();
 
         timeStamina += Time.deltaTime;
-        if(timeStamina >= 0.3 && Stamina < 100)
+        if(timeStamina >= 0.3 && Stamina < maxStamina)
         {
-            Stamina += 1;
+            Stamina += StaminaHeal;
 
             timeStamina = 0;
         }

@@ -15,8 +15,9 @@ public class GameManager : MonoBehaviour
     public GameObject Camp1Transform;
     public GameObject Camp2Transform;
 
-    [Header("Camp")]
+    [Header("UI")]
     public GameObject HUDPlayer;
+    public GameObject UIEsc;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,8 +32,9 @@ public class GameManager : MonoBehaviour
         Camp2Transform = GameObject.FindGameObjectWithTag("Camp2");
 
         bool isCampUI = CampManager.campManager.CampUIGameObject.activeSelf;
+        bool isUIEsc = UIEsc.activeSelf;
 
-        if(isCampUI)
+        if (isCampUI || isUIEsc)
         {
             HUDPlayer.SetActive(false);
         }

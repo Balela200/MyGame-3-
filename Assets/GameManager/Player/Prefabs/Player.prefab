@@ -3042,7 +3042,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3495207385564493284
 Transform:
   m_ObjectHideFlags: 0
@@ -3134,7 +3134,7 @@ MonoBehaviour:
   runSpeed: 12
   isCanMove: 1
   isCanRotation: 1
-  isAttacking: 1
+  isAttacking: 0
   jumpForce: 8
   gravityMultiplier: 3
   groundCheckPoint: {fileID: 802433120873953576}
