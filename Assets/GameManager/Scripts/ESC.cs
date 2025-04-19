@@ -13,6 +13,10 @@ public class ESC : MonoBehaviour
     // Line
     public GameObject LineMainMenu;
     public GameObject LineSkills;
+
+    [Header("Page")]
+    public GameObject MainMenuPage;
+    public GameObject SkillsPage;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +37,11 @@ public class ESC : MonoBehaviour
 
         LineMainMenu.SetActive(true);
         LineSkills.SetActive(false);
+
+        // Page
+        MainMenuPage.SetActive(true);
+        SkillsPage.SetActive(false);
+
     }
 
     public void Skills()
@@ -42,5 +51,9 @@ public class ESC : MonoBehaviour
 
         LineMainMenu.SetActive(false);
         LineSkills.SetActive(true);
+
+        // Page
+        MainMenuPage.SetActive(false);
+        SkillsPage.SetActive(true);
     }
 }

@@ -67,7 +67,10 @@ public class HealthEnemy : MonoBehaviour
     {
         if (other.CompareTag("PlayerAttack"))
         {
-            TakeDamage(10);
+            GameObject playerAttack = other.gameObject.GetComponent<GameObject>();
+            PlayerControllor playerControllor = playerAttack.GetComponent<PlayerControllor>();
+
+            TakeDamage(playerControllor.attack);
         }
     }
 }

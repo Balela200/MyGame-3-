@@ -76,6 +76,9 @@ public class SkillsManager : MonoBehaviour
     private bool isHoldingAttack2 = false;
     private bool isHoldingCombo = false;
 
+    [Header("Text")]
+    public Text point;
+
     void Start()
     {
 
@@ -83,6 +86,8 @@ public class SkillsManager : MonoBehaviour
 
     void Update()
     {
+        point.text = GameSystem.Skills.ToString();
+
         LineSystem();
         ImageSystem();
         SkillsUpdate();
@@ -106,13 +111,23 @@ public class SkillsManager : MonoBehaviour
         timerCombo = timeCombo / 0.5f;
         FillComboImage.fillAmount = Mathf.Lerp(FillComboImage.fillAmount, timerCombo, 20 * Time.deltaTime);
 
-        // Handle button hold logic
-        if (isHoldingStamina && !isStaminaSkills) timeStamina += Time.deltaTime;
-        if (isHoldingAttack && !isAttackSkills) timeAttack += Time.deltaTime;
-        if (isHoldingHealth && !isHealthSkills) timeHealth += Time.deltaTime;
-        if (isHoldingTreatment && !isTreatmentSkills) timeTreatment += Time.deltaTime;
-        if (isHoldingAttack2 && !isAttack2Skills) timeAttack2 += Time.deltaTime;
-        if (isHoldingCombo && !isComboSkills) timeCombo += Time.deltaTime;
+        if (isHoldingStamina)
+            ButtonStamina();
+
+        if (isHoldingAttack)
+            ButtonAttack();
+
+        if (isHoldingHealth)
+            ButtonHealth();
+
+        if (isHoldingTreatment)
+            ButtonTreatment();
+
+        if (isHoldingAttack2)
+            ButtonAttack2();
+
+        if (isHoldingCombo)
+            ButtonCombo();
     }
 
     void ImageSystem()
@@ -213,15 +228,15 @@ public class SkillsManager : MonoBehaviour
 
     void UpdateTimer()
     {
-        if((timeStamina < 0) || timeAttack < 0 || timeHealth < 0 || timeTreatment < 0 || timeAttack2 < 0 || timeCombo < 0)
-        {
-            timeStamina = 0;
-            timeAttack = 0;
-            timeHealth = 0;
-            timeTreatment = 0;
-            timerAttack2 = 0;
-            timerCombo = 0;
-        }
+        //if((timeStamina < 0) || timeAttack < 0 || timeHealth < 0 || timeTreatment < 0 || timeAttack2 < 0 || timeCombo < 0)
+        //{
+        //    timeStamina = 0;
+        //    timeAttack = 0;
+        //    timeHealth = 0;
+        //    timeTreatment = 0;
+        //    timerAttack2 = 0;
+        //    timerCombo = 0;
+        //}
     }
 
     // Button events for holding the buttons down
@@ -252,9 +267,8 @@ public class SkillsManager : MonoBehaviour
             if (timeStamina >= 0.5f)
             {
                 isStaminaSkills = true;
-                timeStamina = 0;
-
                 GameSystem.Skills -= 1;
+                timeStamina = 0;
             }
         }
     }

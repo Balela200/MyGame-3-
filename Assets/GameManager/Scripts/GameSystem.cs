@@ -10,7 +10,7 @@ public class GameSystem : MonoBehaviour
     public static int playerLevel = 0;
     public static float progress = 0;
     public static float maxProgress = 100;
-    public static int Skills = 0;
+    public static int Skills = 10;
 
     
     [Header("HUD")]
