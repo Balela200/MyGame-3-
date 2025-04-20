@@ -9,14 +9,17 @@ public class ESC : MonoBehaviour
     [Header("System Up")]
     public Text mainMenu;
     public Text skills;
+    public Text profile;
 
     // Line
     public GameObject LineMainMenu;
     public GameObject LineSkills;
+    public GameObject LineProfile;
 
     [Header("Page")]
     public GameObject MainMenuPage;
     public GameObject SkillsPage;
+    public GameObject ProfilePage;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,13 +37,17 @@ public class ESC : MonoBehaviour
     {
         mainMenu.color = Color.white;
         skills.color = new Color32(0x92, 0x92, 0x92, 0x92);
+        profile.color = new Color32(0x92, 0x92, 0x92, 0x92);
 
+        // Line
         LineMainMenu.SetActive(true);
         LineSkills.SetActive(false);
+        LineProfile.SetActive(false);
 
         // Page
         MainMenuPage.SetActive(true);
         SkillsPage.SetActive(false);
+        ProfilePage.SetActive(false);
 
     }
 
@@ -48,12 +55,33 @@ public class ESC : MonoBehaviour
     {
         skills.color = Color.white;
         mainMenu.color = new Color32(0x92, 0x92, 0x92, 0x92);
+        profile.color = new Color32(0x92, 0x92, 0x92, 0x92);
 
+        // Line
         LineMainMenu.SetActive(false);
         LineSkills.SetActive(true);
+        LineProfile.SetActive(false);
 
         // Page
         MainMenuPage.SetActive(false);
         SkillsPage.SetActive(true);
+        ProfilePage.SetActive(false);
+    }
+
+    public void Profile()
+    {
+        profile.color = Color.white;
+        mainMenu.color = new Color32(0x92, 0x92, 0x92, 0x92);
+        skills.color = new Color32(0x92, 0x92, 0x92, 0x92);
+
+        // Line
+        LineMainMenu.SetActive(false);
+        LineSkills.SetActive(false);
+        LineProfile.SetActive(true);
+
+        // Page
+        MainMenuPage.SetActive(false);
+        SkillsPage.SetActive(false);
+        ProfilePage.SetActive(true);
     }
 }
