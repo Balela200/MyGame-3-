@@ -76,8 +76,6 @@ public class PlayerControllor : MonoBehaviour
     public Transform[] enemies;
     private Transform targetEnemy;
 
-    public float attack = 10;
-
     [Header("Shield")]
     public bool isShield = false;
 

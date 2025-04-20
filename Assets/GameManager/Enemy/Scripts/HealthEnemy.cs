@@ -59,7 +59,9 @@ public class HealthEnemy : MonoBehaviour
             Destroy(gameObject);
             healthEnemy = 0;
 
-            GameSystem.gameSystem.TakeProgress(Random.Range(20, 40));
+            GameSystem.gameSystem.TakeProgress(Random.Range(30, 50));
+
+            Profile.kills += 1;
         }
     }
 
@@ -67,10 +69,7 @@ public class HealthEnemy : MonoBehaviour
     {
         if (other.CompareTag("PlayerAttack"))
         {
-            GameObject playerAttack = other.gameObject.GetComponent<GameObject>();
-            PlayerControllor playerControllor = playerAttack.GetComponent<PlayerControllor>();
-
-            TakeDamage(playerControllor.attack);
+            TakeDamage(GameSystem.attack);
         }
     }
 }

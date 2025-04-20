@@ -42,9 +42,13 @@ public class CameraDead : MonoBehaviour
     public void RespawnPlayer()
     {
         SceneManager.LoadScene("Game");
+
+        Profile.deaths += 1;
     }
     public void QuitGame()
     {
         Application.Quit();
+
+        Profile.deaths += 1;
     }
 }

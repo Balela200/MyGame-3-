@@ -12,7 +12,9 @@ public class GameSystem : MonoBehaviour
     public static float maxProgress = 100;
     public static int Skills = 10;
 
-    
+    public static float attack = 10;
+
+
     [Header("HUD")]
     public Text levelText;
     public Text ProgressText;
