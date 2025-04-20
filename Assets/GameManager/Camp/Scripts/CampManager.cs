@@ -127,18 +127,18 @@ public class CampManager : MonoBehaviour
 
     public void TravelCamp1()
     {
-        Instantiate(GameManager.gameManager.player, GameManager.gameManager.Camp1Transform.transform.position, GameManager.gameManager.Camp1Transform.transform.rotation);
-
         Destroy(playerFind);
+
+        Instantiate(GameManager.gameManager.player, GameManager.gameManager.Camp1Transform.transform.position, GameManager.gameManager.Camp1Transform.transform.rotation);
 
         Stand();
     }
 
     public void TravelCamp2()
     {
-        Instantiate(GameManager.gameManager.player, GameManager.gameManager.Camp2Transform.transform.position, GameManager.gameManager.Camp2Transform.transform.rotation);
-
         Destroy(playerFind);
+
+        Instantiate(GameManager.gameManager.player, GameManager.gameManager.Camp2Transform.transform.position, GameManager.gameManager.Camp2Transform.transform.rotation);
 
         Stand();
     }
