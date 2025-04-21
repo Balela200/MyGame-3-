@@ -18,6 +18,13 @@ public class Profile : MonoBehaviour
     public TMP_Text textWins;
     public TMP_Text textScore;
     public TMP_Text textKills;
+    public TMP_Text textDeaths;
+
+
+    public TMP_Text textLevel;
+
+    [Header("Bar")]
+    public Image levelBar;
 
     [Header("System")]
     public static float kills = 0;
@@ -75,6 +82,12 @@ public class Profile : MonoBehaviour
 
         textKD.text = kdRatio.ToString("F2"); 
         textKills.text = kills.ToString();
+
+        textDeaths.text = deaths.ToString();
+
+        levelBar.fillAmount = GameSystem.progress / GameSystem.maxProgress;
+
+        textLevel.text = GameSystem.progress.ToString() + " / " + GameSystem.maxProgress.ToString() + " - " + "Low rank, low skill. Are you that weak?";
 
     }
 }

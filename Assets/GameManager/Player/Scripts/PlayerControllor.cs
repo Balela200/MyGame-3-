@@ -477,7 +477,7 @@ public class PlayerControllor : MonoBehaviour
             isShield = true;
 
             isCanMove = false;
-            isAttacking = false;
+            isAttacking = true;
             isCanRotation = false;
         }
         else if (Input.GetMouseButtonUp(1))
@@ -487,7 +487,7 @@ public class PlayerControllor : MonoBehaviour
             isShield = false;
 
             isCanMove = true;
-            isAttacking = true;
+            isAttacking = false;
             isCanRotation = true;
         }
         else if(StaminaSystem.staminaSystem.Stamina < 20)
@@ -497,7 +497,7 @@ public class PlayerControllor : MonoBehaviour
             isShield = false;
 
             isCanMove = true;
-            isAttacking = true;
+            isAttacking = false;
             isCanRotation = true;
         }
 
