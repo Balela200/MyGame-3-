@@ -22,9 +22,9 @@ public class HealthPlayer : MonoBehaviour
 
     void Update()
     {
-        if(healthPlayer > 100)
+        if(healthPlayer > healthMaxPlayer)
         {
-            healthPlayer = 100;
+            healthPlayer = healthMaxPlayer;
         }
     }
     public void TakeDamage(float damage)

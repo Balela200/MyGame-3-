@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class SkillsManager : MonoBehaviour
 {
+    GameObject player;
     [Header("booling Skills")]
     public bool isStaminaSkills = false;
     public bool isAttackSkills = false;
@@ -81,11 +82,29 @@ public class SkillsManager : MonoBehaviour
 
     void Start()
     {
-
+        if (player == null)
+        {
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+            {
+                player = foundPlayer;
+            }
+            return;
+        }
     }
 
     void Update()
     {
+        if (player == null)
+        {
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+            {
+                player = foundPlayer;
+            }
+            return;
+        }
+
         point.text = GameSystem.Skills.ToString();
 
         LineSystem();
@@ -224,6 +243,32 @@ public class SkillsManager : MonoBehaviour
             StaminaSystem.staminaSystem.maxStamina = 200;
             StaminaSystem.staminaSystem.StaminaHeal = 3;
         }
+
+        if(isAttackSkills && !isAttack2Skills)
+        {
+            GameSystem.attack = 30;
+        }
+
+        if (isHealthSkills)
+        {
+            HealthPlayer.healthPlayerStatic.healthMaxPlayer = 200;
+        }
+
+        if(isTreatmentSkills)
+        {
+            GameSystem.gameSystem.heal = true;
+        }
+
+        if(isAttack2Skills)
+        {
+            GameSystem.attack = 40;
+        }
+
+        if(isComboSkills)
+        {
+            PlayerControllor.playerControllor.isAttackCombo = true;
+        }
+
     }
 
     void UpdateTimer()

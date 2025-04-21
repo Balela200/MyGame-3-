@@ -6,20 +6,27 @@ using UnityEngine.UI;
 public class GameSystem : MonoBehaviour
 {
     public static GameSystem gameSystem;
+
     [Header("Level")]
     public static int playerLevel = 0;
     public static float progress = 0;
     public static float maxProgress = 100;
     public static int Skills = 10;
 
-    public static float attack = 10;
+    [Header("System Game")]
+    public static float attack = 20;
+    public bool heal = false;
+    public bool TakeHealPlayer = true;
 
+    private bool isHealingNow = false;
+    private float timeHeal;
 
     [Header("HUD")]
     public Text levelText;
     public Text ProgressText;
 
     private float targetFill;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +37,37 @@ public class GameSystem : MonoBehaviour
     void Update()
     {
         LevelProgressSystem();
+
+        float takeHealThreshold = HealthPlayer.healthPlayerStatic.healthMaxPlayer - 40;
+
+        if (heal && !isHealingNow && HealthPlayer.healthPlayerStatic.healthPlayer <= takeHealThreshold)
+        {
+            isHealingNow = true;
+        }
+
+        if (isHealingNow)
+        {
+            TakeHealPlayer = true;
+
+            if (HealthPlayer.healthPlayerStatic.healthPlayer < HealthPlayer.healthPlayerStatic.healthMaxPlayer)
+            {
+                timeHeal += Time.deltaTime;
+                if (timeHeal >= 0.2f)
+                {
+                    HealthPlayer.healthPlayerStatic.TakeHeal(1);
+                    timeHeal = 0;
+                }
+            }
+            else
+            {
+                isHealingNow = false; 
+                TakeHealPlayer = false;
+            }
+        }
+        else
+        {
+            TakeHealPlayer = false;
+        }
     }
 
     public void TakeProgress(float TakeProgress)

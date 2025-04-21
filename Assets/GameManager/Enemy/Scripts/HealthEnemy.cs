@@ -59,7 +59,7 @@ public class HealthEnemy : MonoBehaviour
             Destroy(gameObject);
             healthEnemy = 0;
 
-            GameSystem.gameSystem.TakeProgress(Random.Range(30, 50));
+            GameSystem.gameSystem.TakeProgress(Random.Range(50, 70));
 
             Profile.kills += 1;
         }

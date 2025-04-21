@@ -76,6 +76,8 @@ public class PlayerControllor : MonoBehaviour
     public Transform[] enemies;
     private Transform targetEnemy;
 
+    public bool isAttackCombo = false;
+
     [Header("Shield")]
     public bool isShield = false;
 
@@ -84,6 +86,9 @@ public class PlayerControllor : MonoBehaviour
     CampSystem CampOther;
     public bool isSit = false;
     public AudioSource lightFire;
+
+    [Header("System")]
+    public bool isActiveESC;
 
     void Start()
     {
@@ -120,7 +125,7 @@ public class PlayerControllor : MonoBehaviour
                 StartCombo();
                 StaminaSystem.staminaSystem.StaminaLoss(5);
             }
-            else if (isAttacking && comboStep < 2)
+            else if (isAttacking && comboStep < 2 && isAttackCombo)
             {
                 comboQueued = true;
             }
@@ -426,33 +431,37 @@ public class PlayerControllor : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Tab))
         {
-            bool isActive = GameManager.gameManager.UIEsc.activeSelf;
+            ESCPage();
 
-            if(isActive)
+            if (isActiveESC)
             {
-                GameManager.gameManager.UIEsc.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-
-                isCanMove = true;
-                isAttacking = false;
-                isDodging = true;
-                isCanRotation = true;
-
-                // Can Rotation Camera  
-                isCanRotationCamera = true;
+                ESC.eSC.MainMenuPage.SetActive(false);
+                ESC.eSC.SkillsPage.SetActive(true);
+                ESC.eSC.ProfilePage.SetActive(false);
             }
             else
             {
-                GameManager.gameManager.UIEsc.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
+                ESC.eSC.MainMenuPage.SetActive(true);
+                ESC.eSC.SkillsPage.SetActive(false);
+                ESC.eSC.ProfilePage.SetActive(false);
+            }
+        }
 
-                isCanMove = false;
-                isAttacking = true;
-                isDodging = false;
-                isCanRotation = false;
+        if(Input.GetKeyUp(KeyCode.Escape))
+        {
+            ESCPage();
 
-                //  Dont Rotation Camera
-                isCanRotationCamera = false;
+            if (isActiveESC)
+            {
+                ESC.eSC.MainMenuPage.SetActive(true);
+                ESC.eSC.SkillsPage.SetActive(false);
+                ESC.eSC.ProfilePage.SetActive(false);
+            }
+            else
+            {
+                ESC.eSC.MainMenuPage.SetActive(true);
+                ESC.eSC.SkillsPage.SetActive(false);
+                ESC.eSC.ProfilePage.SetActive(false);
             }
         }
 
@@ -511,5 +520,43 @@ public class PlayerControllor : MonoBehaviour
     public void EndAttackBox()
     {
         BoxAttack.SetActive(false);
+    }
+
+    public void ESCPage()
+    {
+        isActiveESC = GameManager.gameManager.UIEsc.activeSelf;
+
+        if (isActiveESC)
+        {
+            GameManager.gameManager.UIEsc.SetActive(false);
+
+            Time.timeScale = 1f;
+
+            Cursor.lockState = CursorLockMode.Locked;
+
+            isCanMove = true;
+            isAttacking = false;
+            isDodging = true;
+            isCanRotation = true;
+
+            // Can Rotation Camera  
+            isCanRotationCamera = true;
+        }
+        else
+        {
+            GameManager.gameManager.UIEsc.SetActive(true);
+
+            Time.timeScale = 0f;
+
+            Cursor.lockState = CursorLockMode.None;
+
+            isCanMove = false;
+            isAttacking = true;
+            isDodging = false;
+            isCanRotation = false;
+
+            //  Dont Rotation Camera
+            isCanRotationCamera = false;
+        }
     }
 }
