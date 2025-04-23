@@ -27,8 +27,8 @@ public class Profile : MonoBehaviour
     public Image levelBar;
 
     [Header("System")]
-    public static float kills = 0;
-    public static float deaths = 0;
+    public static int kills = 0;
+    public static int deaths = 0;
 
     HealthPlayer foundPlayerHealth;
 

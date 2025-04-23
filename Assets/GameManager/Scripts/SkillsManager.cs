@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class SkillsManager : MonoBehaviour
 {
+    public static SkillsManager sillsManager;
     GameObject player;
     [Header("booling Skills")]
     public bool isStaminaSkills = false;
@@ -82,28 +83,20 @@ public class SkillsManager : MonoBehaviour
 
     void Start()
     {
-        if (player == null)
-        {
-            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
-            if (foundPlayer != null)
-            {
-                player = foundPlayer;
-            }
-            return;
-        }
+        sillsManager = this;
     }
 
     void Update()
     {
-        if (player == null)
-        {
-            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
-            if (foundPlayer != null)
-            {
-                player = foundPlayer;
-            }
-            return;
-        }
+        //if (player == null)
+        //{
+        //    GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+        //    if (foundPlayer != null)
+        //    {
+        //        player = foundPlayer;
+        //    }
+        //    return;
+        //}
 
         point.text = GameSystem.Skills.ToString();
 
@@ -113,22 +106,22 @@ public class SkillsManager : MonoBehaviour
         UpdateTimer();
 
         timerStamina = timeStamina / 0.5f;
-        FillStaminaImage.fillAmount = Mathf.Lerp(FillStaminaImage.fillAmount, timerStamina, 20 * Time.deltaTime);
+        FillStaminaImage.fillAmount = Mathf.Lerp(FillStaminaImage.fillAmount, timerStamina, 20 * Time.unscaledDeltaTime);
 
         timerAttack = timeAttack / 0.5f;
-        FillAttackImage.fillAmount = Mathf.Lerp(FillAttackImage.fillAmount, timerAttack, 20 * Time.deltaTime);
+        FillAttackImage.fillAmount = Mathf.Lerp(FillAttackImage.fillAmount, timerAttack, 20 * Time.unscaledDeltaTime);
 
         timerHealth = timeHealth / 0.5f;
-        FillHealthImage.fillAmount = Mathf.Lerp(FillHealthImage.fillAmount, timerHealth, 20 * Time.deltaTime);
+        FillHealthImage.fillAmount = Mathf.Lerp(FillHealthImage.fillAmount, timerHealth, 20 * Time.unscaledDeltaTime);
 
         timerTreatment = timeTreatment / 0.5f;
-        FillTreatmentImage.fillAmount = Mathf.Lerp(FillTreatmentImage.fillAmount, timerTreatment, 20 * Time.deltaTime);
+        FillTreatmentImage.fillAmount = Mathf.Lerp(FillTreatmentImage.fillAmount, timerTreatment, 20 * Time.unscaledDeltaTime);
 
         timerAttack2 = timeAttack2 / 0.5f;
-        FillAttack2Image.fillAmount = Mathf.Lerp(FillAttack2Image.fillAmount, timerAttack2, 20 * Time.deltaTime);
+        FillAttack2Image.fillAmount = Mathf.Lerp(FillAttack2Image.fillAmount, timerAttack2, 20 * Time.unscaledDeltaTime);
 
         timerCombo = timeCombo / 0.5f;
-        FillComboImage.fillAmount = Mathf.Lerp(FillComboImage.fillAmount, timerCombo, 20 * Time.deltaTime);
+        FillComboImage.fillAmount = Mathf.Lerp(FillComboImage.fillAmount, timerCombo, 20 * Time.unscaledDeltaTime);
 
         if (isHoldingStamina)
             ButtonStamina();
@@ -308,12 +301,14 @@ public class SkillsManager : MonoBehaviour
     {
         if (!isStaminaSkills && GameSystem.Skills >= 1)
         {
-            timeStamina += Time.deltaTime;
+            timeStamina += Time.unscaledDeltaTime;
             if (timeStamina >= 0.5f)
             {
                 isStaminaSkills = true;
                 GameSystem.Skills -= 1;
                 timeStamina = 0;
+
+                Debug.Log("Ok");
             }
         }
     }
@@ -322,7 +317,7 @@ public class SkillsManager : MonoBehaviour
     {
         if (!isAttackSkills && GameSystem.Skills >= 1)
         {
-            timeAttack += Time.deltaTime;
+            timeAttack += Time.unscaledDeltaTime;
             if (timeAttack >= 0.5f)
             {
                 isAttackSkills = true;
@@ -337,7 +332,7 @@ public class SkillsManager : MonoBehaviour
     {
         if (!isHealthSkills && GameSystem.Skills >= 2)
         {
-            timeHealth += Time.deltaTime;
+            timeHealth += Time.unscaledDeltaTime;
             if (timeHealth >= 0.5f)
             {
                 isHealthSkills = true;
@@ -352,7 +347,7 @@ public class SkillsManager : MonoBehaviour
     {
         if (!isTreatmentSkills && GameSystem.Skills >= 2)
         {
-            timeTreatment += Time.deltaTime;
+            timeTreatment += Time.unscaledDeltaTime;
             if (timeTreatment >= 0.5f)
             {
                 isTreatmentSkills = true;
@@ -367,7 +362,7 @@ public class SkillsManager : MonoBehaviour
     {
         if (!isAttack2Skills && GameSystem.Skills >= 2)
         {
-            timeAttack2 += Time.deltaTime;
+            timeAttack2 += Time.unscaledDeltaTime;
             if (timeAttack2 >= 0.5f)
             {
                 isAttack2Skills = true;
@@ -382,7 +377,7 @@ public class SkillsManager : MonoBehaviour
     {
         if (!isComboSkills && GameSystem.Skills >= 3)
         {
-            timeCombo += Time.deltaTime;
+            timeCombo += Time.unscaledDeltaTime;
             if (timeCombo >= 0.5f)
             {
                 isComboSkills = true;

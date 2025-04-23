@@ -113,9 +113,9 @@ public class ESC : MonoBehaviour
 
     }
 
-    public void SaveGame()
+    public void SaveData()
     {
-
+        SaveGame.saveGame.Save();
     }
 
     public void Help()
@@ -125,6 +125,7 @@ public class ESC : MonoBehaviour
 
     public void Quit()
     {
+        SaveGame.saveGame.Save();
         Application.Quit();
     }
 }

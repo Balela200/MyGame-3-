@@ -14,7 +14,7 @@ public class GameSystem : MonoBehaviour
     public static int Skills = 10;
 
     [Header("System Game")]
-    public static float attack = 20;
+    public static float attack = 15;
     public bool heal = false;
     public bool TakeHealPlayer = true;
 
@@ -82,6 +82,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 1;
             progress = 0f;
             maxProgress = 100;
+
+            Skills += 2;
             Debug.Log("Level Player: 1");
         }
         else if (playerLevel == 1 && progress >= maxProgress)
@@ -89,6 +91,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 2;
             progress = 0f;
             maxProgress = 250;
+
+            Skills += 2;
             Debug.Log("Level Player: 2");
         }
         else if (playerLevel == 2 && progress >= maxProgress)
@@ -96,6 +100,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 3;
             progress = 0f;
             maxProgress = 450;
+
+            Skills += 2;
             Debug.Log("Level Player: 3");
         }
         else if (playerLevel == 3 && progress >= maxProgress)
@@ -103,6 +109,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 4;
             progress = 0f;
             maxProgress = 700;
+
+            Skills += 2;
             Debug.Log("Level Player: 4");
         }
         else if (playerLevel == 4 && progress >= maxProgress)
@@ -110,6 +118,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 5;
             progress = 0f;
             maxProgress = 1000;
+
+            Skills += 2;
             Debug.Log("Level Player: 5");
         }
         else if (playerLevel == 5 && progress >= maxProgress)
@@ -117,6 +127,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 6;
             progress = 0f;
             maxProgress = 1350;
+
+            Skills += 2;
             Debug.Log("Level Player: 6");
         }
         else if (playerLevel == 6 && progress >= maxProgress)
@@ -124,6 +136,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 7;
             progress = 0f;
             maxProgress = 1750;
+
+            Skills += 2;
             Debug.Log("Level Player: 7");
         }
         else if (playerLevel == 7 && progress >= maxProgress)
@@ -131,6 +145,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 8;
             progress = 0f;
             maxProgress = 2200;
+
+            Skills += 2;
             Debug.Log("Level Player: 8");
         }
         else if (playerLevel == 8 && progress >= maxProgress)
@@ -138,6 +154,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 9;
             progress = 0f;
             maxProgress = 2700;
+
+            Skills += 2;
             Debug.Log("Level Player: 9");
         }
         else if (playerLevel == 9 && progress >= maxProgress)
@@ -145,6 +163,8 @@ public class GameSystem : MonoBehaviour
             playerLevel = 10;
             progress = 0f;
             maxProgress = 0;
+
+            Skills += 2;
             Debug.Log("Level Player: 10");
         }
 
