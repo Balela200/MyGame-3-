@@ -12964,6 +12964,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Warrior (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4758568647623095351, guid: 32e1eb4a9b11cd24698f4a80c3eb0257,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5278786478536846989, guid: 32e1eb4a9b11cd24698f4a80c3eb0257,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20577,6 +20582,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy_Warrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758568647623095351, guid: 32e1eb4a9b11cd24698f4a80c3eb0257,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5278786478536846989, guid: 32e1eb4a9b11cd24698f4a80c3eb0257,
         type: 3}
