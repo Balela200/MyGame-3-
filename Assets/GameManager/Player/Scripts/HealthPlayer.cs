@@ -81,6 +81,7 @@ public class HealthPlayer : MonoBehaviour
                 StaminaSystem.staminaSystem.StaminaLoss(20);
 
                 // Audio
+                AudioManager.audioManager.AudioShields.Play();
             }
             else
             {

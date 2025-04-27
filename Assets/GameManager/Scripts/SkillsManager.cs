@@ -308,6 +308,7 @@ public class SkillsManager : MonoBehaviour
                 GameSystem.Skills -= 1;
                 timeStamina = 0;
 
+                AudioManager.audioManager.LevelUp.Play();
                 Debug.Log("Ok");
             }
         }
@@ -324,6 +325,8 @@ public class SkillsManager : MonoBehaviour
                 timeAttack = 0;
 
                 GameSystem.Skills -= 1;
+
+                AudioManager.audioManager.LevelUp.Play();
             }
         }
     }
@@ -339,6 +342,8 @@ public class SkillsManager : MonoBehaviour
                 timeHealth = 0;
 
                 GameSystem.Skills -= 2;
+
+                AudioManager.audioManager.LevelUp.Play();
             }
         }
     }
@@ -354,6 +359,8 @@ public class SkillsManager : MonoBehaviour
                 timeTreatment = 0;
 
                 GameSystem.Skills -= 2;
+
+                AudioManager.audioManager.LevelUp.Play();
             }
         }
     }
@@ -369,6 +376,8 @@ public class SkillsManager : MonoBehaviour
                 timeAttack2 = 0;
 
                 GameSystem.Skills -= 2;
+
+                AudioManager.audioManager.LevelUp.Play();
             }
         }
     }
@@ -384,6 +393,8 @@ public class SkillsManager : MonoBehaviour
                 timeCombo = 0;
 
                 GameSystem.Skills -= 3;
+
+                AudioManager.audioManager.LevelUp.Play();
             }
         }
     }

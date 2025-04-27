@@ -13,6 +13,7 @@ TagManager:
   - HUDPlayer
   - Camp2
   - Camp
+  - TextAnimation
   layers:
   - Default
   - TransparentFX

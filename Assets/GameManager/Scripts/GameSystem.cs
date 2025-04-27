@@ -13,6 +13,8 @@ public class GameSystem : MonoBehaviour
     public static float maxProgress = 100;
     public static int Skills = 10;
 
+    public Animator animLevel;
+
     [Header("System Game")]
     public static float attack = 15;
     public bool heal = false;
@@ -31,12 +33,48 @@ public class GameSystem : MonoBehaviour
     void Start()
     {
         gameSystem = this;
+
+        if (animLevel == null)
+        {
+            GameObject animLevelGameObject = GameObject.FindGameObjectWithTag("TextAnimation");
+
+            if (animLevelGameObject != null)
+            {
+                animLevel = animLevelGameObject.GetComponent<Animator>();
+            }
+            else
+            {
+                Debug.Log("No GameObject with tag 'TextAnimation' found!");
+            }
+        }
+        else
+        {
+            Debug.Log("Animation already assigned.");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         LevelProgressSystem();
+
+        if (animLevel == null)
+        {
+            GameObject animLevelGameObject = GameObject.FindGameObjectWithTag("TextAnimation");
+
+            if (animLevelGameObject != null)
+            {
+                animLevel = animLevelGameObject.GetComponent<Animator>();
+            }
+            else
+            {
+                Debug.Log("No GameObject with tag 'TextAnimation' found!");
+            }
+        }
+        else
+        {
+            Debug.Log("Animation already assigned.");
+        }
 
         float takeHealThreshold = HealthPlayer.healthPlayerStatic.healthMaxPlayer - 40;
 
@@ -74,7 +112,7 @@ public class GameSystem : MonoBehaviour
     {
         progress += TakeProgress;
     }
-
+    
     public void LevelProgressSystem()
     {
         if (playerLevel == 0 && progress >= maxProgress)
@@ -85,6 +123,10 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 1");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
+
         }
         else if (playerLevel == 1 && progress >= maxProgress)
         {
@@ -94,6 +136,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 2");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 2 && progress >= maxProgress)
         {
@@ -103,6 +148,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 3");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 3 && progress >= maxProgress)
         {
@@ -112,6 +160,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 4");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 4 && progress >= maxProgress)
         {
@@ -121,6 +172,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 5");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 5 && progress >= maxProgress)
         {
@@ -130,6 +184,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 6");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 6 && progress >= maxProgress)
         {
@@ -139,6 +196,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 7");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 7 && progress >= maxProgress)
         {
@@ -148,6 +208,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 8");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 8 && progress >= maxProgress)
         {
@@ -157,6 +220,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 9");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
         else if (playerLevel == 9 && progress >= maxProgress)
         {
@@ -166,6 +232,9 @@ public class GameSystem : MonoBehaviour
 
             Skills += 2;
             Debug.Log("Level Player: 10");
+
+            animLevel.SetTrigger("NewLevel");
+            AudioManager.audioManager.NewLevel.Play();
         }
 
         levelText.text = playerLevel.ToString();
