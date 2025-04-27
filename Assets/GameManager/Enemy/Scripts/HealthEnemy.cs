@@ -62,6 +62,7 @@ public class HealthEnemy : MonoBehaviour
             GameSystem.gameSystem.TakeProgress(Random.Range(50, 70));
 
             Profile.kills += 1;
+            GameManager.gameManager.Win += 1;
         }
     }
 
