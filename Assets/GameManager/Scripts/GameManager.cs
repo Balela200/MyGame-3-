@@ -28,17 +28,22 @@ public class GameManager : MonoBehaviour
     public bool isLevel_2;
     public bool isLevel_3;
 
+    [Header("Door")]
+    [SerializeField] private GameObject Door;
+    public int Scene;
+
     // Start is called before the first frame update
     void Start()
     {
         gameManager = this;
         RespawnPlayer();
-        WinSystem();
     }
 
     // Update is called once per frame
     void Update()
     {
+        WinSystem();
+
         Camp1Transform = GameObject.FindGameObjectWithTag("Camp1");
         Camp2Transform = GameObject.FindGameObjectWithTag("Camp2");
 
@@ -75,25 +80,27 @@ public class GameManager : MonoBehaviour
     {
         if(isLevel_1)
         {
-            if(Win == maxWin)
+            if(Win >= maxWin)
             {
-                Debug.Log("Hello");
+                Door.SetActive(true);
+
+                Debug.LogError("Hi");
             }
         }
 
         if (isLevel_2)
         {
-            if (Win == maxWin)
+            if (Win >= maxWin)
             {
-
+                Door.SetActive(true);
             }
         }
 
         if (isLevel_3)
         {
-            if (Win == maxWin)
+            if (Win >= maxWin)
             {
-
+                Door.SetActive(true);
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControllor : MonoBehaviour
 {
@@ -360,6 +361,10 @@ public class PlayerControllor : MonoBehaviour
             isCamp = true;
         }
 
+        if(other.gameObject.CompareTag("OnDoor"))
+        {
+            SceneManager.LoadScene(GameManager.gameManager.Scene);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -559,4 +564,6 @@ public class PlayerControllor : MonoBehaviour
             isCanRotationCamera = false;
         }
     }
+
+
 }

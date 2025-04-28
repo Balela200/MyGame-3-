@@ -333,7 +333,7 @@ public class SkillsManager : MonoBehaviour
 
     public void ButtonHealth()
     {
-        if (!isHealthSkills && GameSystem.Skills >= 2)
+        if (!isHealthSkills && GameSystem.Skills >= 2 && (isStaminaSkills || isAttackSkills))
         {
             timeHealth += Time.unscaledDeltaTime;
             if (timeHealth >= 0.5f)
@@ -350,7 +350,7 @@ public class SkillsManager : MonoBehaviour
 
     public void ButtonTreatment()
     {
-        if (!isTreatmentSkills && GameSystem.Skills >= 2)
+        if (!isTreatmentSkills && GameSystem.Skills >= 2 && isHealthSkills)
         {
             timeTreatment += Time.unscaledDeltaTime;
             if (timeTreatment >= 0.5f)
@@ -367,7 +367,7 @@ public class SkillsManager : MonoBehaviour
 
     public void ButtonAttack2()
     {
-        if (!isAttack2Skills && GameSystem.Skills >= 2)
+        if (!isAttack2Skills && GameSystem.Skills >= 2 && (isTreatmentSkills || isComboSkills))
         {
             timeAttack2 += Time.unscaledDeltaTime;
             if (timeAttack2 >= 0.5f)
@@ -384,7 +384,7 @@ public class SkillsManager : MonoBehaviour
 
     public void ButtonCombo()
     {
-        if (!isComboSkills && GameSystem.Skills >= 3)
+        if (!isComboSkills && GameSystem.Skills >= 3 && isHealthSkills)
         {
             timeCombo += Time.unscaledDeltaTime;
             if (timeCombo >= 0.5f)
