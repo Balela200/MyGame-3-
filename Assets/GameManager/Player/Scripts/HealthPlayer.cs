@@ -15,6 +15,8 @@ public class HealthPlayer : MonoBehaviour
     public Camera GameCamera;
     public Camera DeadCamera;
 
+    [Header("Bool")]
+    private bool isPlayingAudio = false;
     void Start()
     {
         healthPlayerStatic = this;
@@ -31,7 +33,7 @@ public class HealthPlayer : MonoBehaviour
     {
         healthPlayer -= damage;
 
-        if (healthPlayer < 0)
+        if (healthPlayer <= 0)
         {
             GameCamera = Camera.main;
             // Daed
@@ -76,17 +78,61 @@ public class HealthPlayer : MonoBehaviour
     {
         if (other.CompareTag("EnemyAttack"))
         {
-            if(PlayerControllor.playerControllor.isShield)
+            if (PlayerControllor.playerControllor.isShield)
             {
-                StaminaSystem.staminaSystem.StaminaLoss(20);
+                if (!isPlayingAudio)
+                {
+                    StaminaSystem.staminaSystem.StaminaLoss(20);
 
-                // Audio
-                AudioManager.audioManager.AudioShields.Play();
+                    // Play shield sound
+                    AudioManager.audioManager.AudioShields.Play();
+                    StartCoroutine(WaitForAudio(AudioManager.audioManager.AudioShields));
+                }
             }
             else
             {
-                TakeDamage(3);
+                if (!isPlayingAudio)
+                {
+                    TakeDamage(10);
+
+                    // Play damage sound
+                    AudioManager.audioManager.Damage.Play();
+                    StartCoroutine(WaitForAudio(AudioManager.audioManager.Damage));
+                }
             }
         }
+
+        if (other.CompareTag("EnemyAttackBoss"))
+        {
+            if (PlayerControllor.playerControllor.isShield)
+            {
+                if (!isPlayingAudio)
+                {
+                    StaminaSystem.staminaSystem.StaminaLoss(40);
+
+                    // Play shield sound
+                    AudioManager.audioManager.AudioShields.Play();
+                    StartCoroutine(WaitForAudio(AudioManager.audioManager.AudioShields));
+                }
+            }
+            else
+            {
+                if (!isPlayingAudio)
+                {
+                    TakeDamage(30);
+
+                    // Play damage sound
+                    AudioManager.audioManager.Damage.Play();
+                    StartCoroutine(WaitForAudio(AudioManager.audioManager.Damage));
+                }
+            }
+        }
+    }
+
+    private IEnumerator WaitForAudio(AudioSource audioSource)
+    {
+        isPlayingAudio = true;
+        yield return new WaitForSeconds(audioSource.clip.length);
+        isPlayingAudio = false;
     }
 }

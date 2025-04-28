@@ -41,7 +41,20 @@ public class CameraDead : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        SceneManager.LoadScene("Game");
+        if(GameManager.gameManager.isLevel_1)
+        {
+            SceneManager.LoadScene(1);
+        }
+
+        if (GameManager.gameManager.isLevel_2)
+        {
+            SceneManager.LoadScene(2);
+        }
+
+        if (GameManager.gameManager.isLevel_3)
+        {
+            SceneManager.LoadScene(3);
+        }
 
         Profile.deaths += 1;
     }

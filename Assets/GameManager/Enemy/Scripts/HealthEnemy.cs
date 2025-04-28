@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthEnemy : MonoBehaviour
@@ -10,6 +11,7 @@ public class HealthEnemy : MonoBehaviour
     public float healthEnemy = 100;
     public float healthMaxEnemy = 100;
 
+    public int enemyLevel = 1;
     [Header("Camera")]
     public Camera cam;
 
@@ -18,6 +20,11 @@ public class HealthEnemy : MonoBehaviour
     public Image HealthUI;
 
     float healthFill;
+
+    public Text textName;
+    public Text textLevel;
+
+
 
     void Start()
     {
@@ -35,6 +42,10 @@ public class HealthEnemy : MonoBehaviour
 
     void Update()
     {
+        LevelEnemySystem();
+
+        textLevel.text = enemyLevel.ToString();
+
         healthFill = healthEnemy / healthMaxEnemy;
         HealthUI.fillAmount = Mathf.Lerp(HealthUI.fillAmount, healthFill, 20 * Time.deltaTime);
 
@@ -63,6 +74,11 @@ public class HealthEnemy : MonoBehaviour
 
             Profile.kills += 1;
             GameManager.gameManager.Win += 1;
+
+            if (enemyLevel == 5)
+            {
+                SceneManager.LoadScene(4);
+            }
         }
     }
 
@@ -71,6 +87,30 @@ public class HealthEnemy : MonoBehaviour
         if (other.CompareTag("PlayerAttack"))
         {
             TakeDamage(GameSystem.attack);
+        }
+    }
+
+    void LevelEnemySystem()
+    {
+        if(enemyLevel == 1)
+        {
+            textName.text = "Warrior ( <color=#FF0000>Enemy</color> )";
+        }
+        else if (enemyLevel == 2)
+        {
+            textName.text = "Warrior ( <color=#FF0000>Enemy</color> )";
+        }
+        else if (enemyLevel == 3)
+        {
+            textName.text = "Warrior ( <color=#FF0000>Enemy</color> )";
+        }
+        else if (enemyLevel == 4)
+        {
+            textName.text = "Warrior ( <color=#FF0000>Enemy</color> )";
+        }
+        else if (enemyLevel == 5)
+        {
+            textName.text = "Asim ( <color=#FF6400>Boss</color> )";
         }
     }
 }

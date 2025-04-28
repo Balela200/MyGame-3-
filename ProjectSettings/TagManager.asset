@@ -15,6 +15,7 @@ TagManager:
   - Camp
   - TextAnimation
   - OnDoor
+  - EnemyAttackBoss
   layers:
   - Default
   - TransparentFX

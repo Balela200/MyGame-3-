@@ -91,6 +91,10 @@ public class PlayerControllor : MonoBehaviour
     [Header("System")]
     public bool isActiveESC;
 
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -103,6 +107,7 @@ public class PlayerControllor : MonoBehaviour
 
         playerControllor = this;
 
+        SaveGame.saveGame.Load();
     }
 
     void Update()

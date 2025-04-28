@@ -126,7 +126,6 @@ public class GameSystem : MonoBehaviour
 
             animLevel.SetTrigger("NewLevel");
             AudioManager.audioManager.NewLevel.Play();
-
         }
         else if (playerLevel == 1 && progress >= maxProgress)
         {

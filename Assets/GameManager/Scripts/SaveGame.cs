@@ -17,15 +17,15 @@ public class SaveGame : MonoBehaviour
         
     }
 
-    public void Save()
+    public void SaveSystemGame()
     {
         // progress
-        PlayerPrefs.SetInt("isAttackSkills", SkillsManager.sillsManager.isAttackSkills ? 1 : 0);
-        PlayerPrefs.SetInt("isAttack2Skills", SkillsManager.sillsManager.isAttack2Skills ? 1 : 0);
-        PlayerPrefs.SetInt("isComboSkills", SkillsManager.sillsManager.isComboSkills ? 1 : 0);
-        PlayerPrefs.SetInt("isHealthSkills", SkillsManager.sillsManager.isHealthSkills ? 1 : 0);
-        PlayerPrefs.SetInt("isStaminaSkills", SkillsManager.sillsManager.isStaminaSkills ? 1 : 0);
-        PlayerPrefs.SetInt("isTreatmentSkills", SkillsManager.sillsManager.isTreatmentSkills ? 1 : 0);
+        PlayerPrefs.SetInt("isAttackSkills", SkillsManager.isAttackSkills ? 1 : 0);
+        PlayerPrefs.SetInt("isAttack2Skills", SkillsManager.isAttack2Skills ? 1 : 0);
+        PlayerPrefs.SetInt("isComboSkills", SkillsManager.isComboSkills ? 1 : 0);
+        PlayerPrefs.SetInt("isHealthSkills", SkillsManager.isHealthSkills ? 1 : 0);
+        PlayerPrefs.SetInt("isStaminaSkills", SkillsManager.isStaminaSkills ? 1 : 0);
+        PlayerPrefs.SetInt("isTreatmentSkills", SkillsManager.isTreatmentSkills ? 1 : 0);
 
         PlayerPrefs.SetInt("Skills", GameSystem.Skills);
 
@@ -38,17 +38,18 @@ public class SaveGame : MonoBehaviour
         PlayerPrefs.SetInt("playerLevel", GameSystem.playerLevel);
         PlayerPrefs.SetFloat("progress", GameSystem.progress);
 
+        Debug.Log("Data has been saved!");
         PlayerPrefs.Save();
     }
 
     public void Load()
     {
-        SkillsManager.sillsManager.isAttackSkills = PlayerPrefs.GetInt("isAttackSkills") == 1;
-        SkillsManager.sillsManager.isAttack2Skills = PlayerPrefs.GetInt("isAttack2Skills") == 1;
-        SkillsManager.sillsManager.isComboSkills = PlayerPrefs.GetInt("isComboSkills") == 1;
-        SkillsManager.sillsManager.isHealthSkills = PlayerPrefs.GetInt("isHealthSkills") == 1;
-        SkillsManager.sillsManager.isStaminaSkills = PlayerPrefs.GetInt("isStaminaSkills") == 1;
-        SkillsManager.sillsManager.isTreatmentSkills = PlayerPrefs.GetInt("isTreatmentSkills") == 1;
+        SkillsManager.isAttackSkills = PlayerPrefs.GetInt("isAttackSkills") == 1;
+        SkillsManager.isAttack2Skills = PlayerPrefs.GetInt("isAttack2Skills") == 1;
+        SkillsManager.isComboSkills = PlayerPrefs.GetInt("isComboSkills") == 1;
+        SkillsManager.isHealthSkills = PlayerPrefs.GetInt("isHealthSkills") == 1;
+        SkillsManager.isStaminaSkills = PlayerPrefs.GetInt("isStaminaSkills") == 1;
+        SkillsManager.isTreatmentSkills = PlayerPrefs.GetInt("isTreatmentSkills") == 1;
 
         GameSystem.Skills = PlayerPrefs.GetInt("Skills");
 

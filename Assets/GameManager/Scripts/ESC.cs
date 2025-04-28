@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -115,7 +114,7 @@ public class ESC : MonoBehaviour
 
     public void SaveData()
     {
-        SaveGame.saveGame.Save();
+        SaveGame.saveGame.SaveSystemGame();
     }
 
     public void Help()
@@ -125,7 +124,6 @@ public class ESC : MonoBehaviour
 
     public void Quit()
     {
-        SaveGame.saveGame.Save();
         Application.Quit();
     }
 }

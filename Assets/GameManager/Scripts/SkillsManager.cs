@@ -9,12 +9,12 @@ public class SkillsManager : MonoBehaviour
     public static SkillsManager sillsManager;
     GameObject player;
     [Header("booling Skills")]
-    public bool isStaminaSkills = false;
-    public bool isAttackSkills = false;
-    public bool isHealthSkills = false;
-    public bool isTreatmentSkills = false;
-    public bool isAttack2Skills = false;
-    public bool isComboSkills = false;
+    public static bool isStaminaSkills = false;
+    public static bool isAttackSkills = false;
+    public static bool isHealthSkills = false;
+    public static bool isTreatmentSkills = false;
+    public static bool isAttack2Skills = false;
+    public static bool isComboSkills = false;
 
     [Header("Image")]
     public Image Stamina;
@@ -254,7 +254,7 @@ public class SkillsManager : MonoBehaviour
 
         if(isAttack2Skills)
         {
-            GameSystem.attack = 40;
+            GameSystem.attack = 70;
         }
 
         if(isComboSkills)
@@ -310,6 +310,8 @@ public class SkillsManager : MonoBehaviour
 
                 AudioManager.audioManager.LevelUp.Play();
                 Debug.Log("Ok");
+
+                SaveGame.saveGame.SaveSystemGame();
             }
         }
     }
@@ -327,6 +329,8 @@ public class SkillsManager : MonoBehaviour
                 GameSystem.Skills -= 1;
 
                 AudioManager.audioManager.LevelUp.Play();
+
+                SaveGame.saveGame.SaveSystemGame();
             }
         }
     }
@@ -344,6 +348,8 @@ public class SkillsManager : MonoBehaviour
                 GameSystem.Skills -= 2;
 
                 AudioManager.audioManager.LevelUp.Play();
+
+                SaveGame.saveGame.SaveSystemGame();
             }
         }
     }
@@ -361,13 +367,15 @@ public class SkillsManager : MonoBehaviour
                 GameSystem.Skills -= 2;
 
                 AudioManager.audioManager.LevelUp.Play();
+
+                SaveGame.saveGame.SaveSystemGame();
             }
         }
     }
 
     public void ButtonAttack2()
     {
-        if (!isAttack2Skills && GameSystem.Skills >= 2 && (isTreatmentSkills || isComboSkills))
+        if (!isAttack2Skills && GameSystem.Skills >= 4 && (isTreatmentSkills || isComboSkills))
         {
             timeAttack2 += Time.unscaledDeltaTime;
             if (timeAttack2 >= 0.5f)
@@ -378,6 +386,8 @@ public class SkillsManager : MonoBehaviour
                 GameSystem.Skills -= 2;
 
                 AudioManager.audioManager.LevelUp.Play();
+
+                SaveGame.saveGame.SaveSystemGame();
             }
         }
     }
@@ -395,6 +405,8 @@ public class SkillsManager : MonoBehaviour
                 GameSystem.Skills -= 3;
 
                 AudioManager.audioManager.LevelUp.Play();
+
+                SaveGame.saveGame.SaveSystemGame();
             }
         }
     }
