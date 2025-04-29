@@ -520,6 +520,11 @@ public class PlayerControllor : MonoBehaviour
             isCanRotation = true;
         }
 
+        if(Input.GetKeyUp(KeyCode.T))
+        {
+            GameSystem.Skills += 10;
+        }
+
     }
 
     public void AttackBox()
